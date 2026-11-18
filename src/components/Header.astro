@@ -1,0 +1,194 @@
+---
+import { profile } from '../data/profile';
+import { publications } from '../data/publications';
+import { ui } from '../data/i18n';
+import { withBase } from '../utils/base';
+import Icon from './Icon.astro';
+import Bilingual from './Bilingual.astro';
+
+const navItems = [
+  { label: ui.nav.about, href: withBase('/#about') },
+  { label: ui.nav.news, href: withBase('/#news') },
+  ...(publications.length > 0
+    ? [{ label: ui.nav.publications, href: withBase('/#publications') }]
+    : []),
+  { label: ui.nav.notes, href: withBase('/notes/') },
+  { label: ui.nav.experience, href: withBase('/#experience') },
+];
+---
+
+<header
+  class="site-header sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur-md dark:border-white/[0.07] dark:bg-night/85"
+>
+  <div
+    class="container-page flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 py-2.5 sm:py-3"
+  >
+    <a href={withBase('/')} class="inline-flex items-baseline gap-2">
+      <span
+        class="font-serif text-[17px] font-semibold tracking-tight text-slate-900 dark:text-slate-100"
+      >
+        <span class="lang-en" lang="en">{profile.name}</span><span class="lang-zh" lang="zh-CN">{profile.nameZh}</span>
+      </span>
+      <span class="hidden text-[11px] font-medium text-slate-400 sm:inline dark:text-slate-500">
+        <span class="lang-en" lang="en">{profile.nameZh}</span><span class="lang-zh" lang="zh-CN">{profile.name}</span>
+      </span>
+    </a>
+
+    <nav
+      aria-label="Primary"
+      class="order-3 -mx-2 flex w-full items-center gap-0.5 overflow-x-auto pb-0.5 sm:order-none sm:mx-0 sm:w-auto sm:overflow-visible sm:pb-0"
+    >
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class="whitespace-nowrap rounded-full px-2.5 py-1 text-[12.5px] font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/[0.06] dark:hover:text-slate-100"
+          >
+            <Bilingual value={item.label} />
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <div
+        class="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 p-0.5 text-[10px] font-semibold dark:border-slate-800 dark:bg-white/[0.03]"
+        role="group"
+        aria-label="Language / 语言"
+      >
+        <button
+          type="button"
+          class="lang-switch"
+          data-lang-switch="en"
+          aria-pressed="true"
+          title="English"
+        >
+          EN
+        </button>
+        <button
+          type="button"
+          class="lang-switch"
+          data-lang-switch="zh"
+          aria-pressed="false"
+          title="中文"
+        >
+          中
+        </button>
+      </div>
+
+      <button
+        id="theme-toggle"
+        type="button"
+        class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition-colors hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-white"
+        aria-label="Toggle color theme"
+        aria-pressed="false"
+        title="Toggle color theme"
+      >
+        <Icon name="moon" size={14} class="block dark:hidden" />
+        <Icon name="sun" size={14} class="hidden dark:block" />
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+  const langButtons = document.querySelectorAll<HTMLButtonElement>('[data-lang-switch]');
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+  type Language = 'en' | 'zh';
+
+  function currentLanguage(): Language {
+    return root.dataset.lang === 'zh' ? 'zh' : 'en';
+  }
+
+  function storedTheme(): string | null {
+    try {
+      return localStorage.getItem('theme');
+    } catch {
+      return null;
+    }
+  }
+
+  function syncThemeLabel() {
+    const isDark = root.classList.contains('dark');
+    const isZh = currentLanguage() === 'zh';
+    const label = isDark
+      ? isZh
+        ? '切换到浅色模式'
+        : 'Switch to light theme'
+      : isZh
+        ? '切换到深色模式'
+        : 'Switch to dark theme';
+    themeToggle?.setAttribute('aria-label', label);
+    themeToggle?.setAttribute('title', label);
+    themeToggle?.setAttribute('aria-pressed', String(isDark));
+  }
+
+  function syncLanguageButtons() {
+    const lang = currentLanguage();
+    root.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    langButtons.forEach((button) => {
+      button.setAttribute('aria-pressed', String(button.dataset.langSwitch === lang));
+    });
+  }
+
+  function setTheme(isDark: boolean, persist: boolean) {
+    root.classList.toggle('dark', isDark);
+    if (persist) {
+      try {
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      } catch {
+        /* ignore unavailable storage */
+      }
+    }
+    syncThemeLabel();
+  }
+
+  function setLanguage(lang: Language, persist: boolean) {
+    const scrollPosition = window.scrollY;
+    const previousOverflowAnchor = root.style.getPropertyValue('overflow-anchor');
+    root.style.setProperty('overflow-anchor', 'none');
+
+    root.dataset.lang = lang;
+    if (persist) {
+      try {
+        localStorage.setItem('lang', lang);
+      } catch {
+        /* ignore unavailable storage */
+      }
+    }
+    syncLanguageButtons();
+    syncThemeLabel();
+
+    window.scrollTo({ top: scrollPosition, behavior: 'instant' as ScrollBehavior });
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: scrollPosition, behavior: 'instant' as ScrollBehavior });
+      requestAnimationFrame(() => {
+        if (previousOverflowAnchor) {
+          root.style.setProperty('overflow-anchor', previousOverflowAnchor);
+        } else {
+          root.style.removeProperty('overflow-anchor');
+        }
+      });
+    });
+  }
+
+  themeToggle?.addEventListener('click', () => {
+    setTheme(!root.classList.contains('dark'), true);
+  });
+
+  langButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      setLanguage(button.dataset.langSwitch === 'zh' ? 'zh' : 'en', true);
+    });
+  });
+
+  media.addEventListener('change', (event) => {
+    if (!storedTheme()) setTheme(event.matches, false);
+  });
+
+  syncLanguageButtons();
+  syncThemeLabel();
+</script>

@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="450" viewBox="0 0 720 450" role="img" aria-labelledby="unibind-title unibind-desc" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title id="unibind-title">UniBind contrastive alignment</title>
+  <desc id="unibind-desc">Image and text encoders map paired concepts into a shared embedding space with contrastive alignment.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" />
+      <stop offset="1" stop-color="#F1F5F9" />
+    </linearGradient>
+    <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="1.2" cy="1.2" r="1.1" fill="#CBD5E1" opacity="0.28" />
+    </pattern>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0F172A" flood-opacity="0.06" />
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10z" fill="#94A3B8" />
+    </marker>
+  </defs>
+
+  <rect width="720" height="450" fill="url(#bg)" />
+  <rect width="720" height="450" fill="url(#dots)" />
+
+  <text x="32" y="46" font-size="22" font-weight="700" fill="#0F172A" letter-spacing="-0.3">UniBind</text>
+  <rect x="138" y="26" width="150" height="26" rx="13" fill="#EFF6FF" stroke="#BFDBFE" />
+  <text x="213" y="44" text-anchor="middle" font-size="11" font-weight="600" fill="#1D4ED8">contrastive alignment</text>
+
+  <rect x="566" y="26" width="122" height="30" rx="15" fill="#ECFDF5" stroke="#A7F3D0" />
+  <text x="627" y="46" text-anchor="middle" font-size="12.5" font-weight="700" fill="#047857">zero-shot +5.2%</text>
+
+  <!-- Image encoder -->
+  <g filter="url(#soft)">
+    <rect x="32" y="84" width="250" height="124" rx="16" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+  <text x="52" y="112" font-size="12.5" font-weight="600" fill="#0F172A">Image encoder</text>
+
+  <g>
+    <rect x="52" y="124" width="44" height="44" rx="6" fill="#DBEAFE" />
+    <circle cx="74" cy="138" r="7" fill="#F59E0B" />
+    <rect x="52" y="156" width="44" height="12" fill="#86EFAC" opacity="0.85" />
+
+    <rect x="106" y="124" width="44" height="44" rx="6" fill="#FEF3C7" />
+    <path d="M112 164 128 132 144 164Z" fill="#F59E0B" opacity="0.55" />
+    <path d="M118 164 132 140 146 164Z" fill="#D97706" opacity="0.45" />
+
+    <rect x="160" y="124" width="44" height="44" rx="6" fill="#D1FAE5" />
+    <circle cx="182" cy="146" r="12" fill="none" stroke="#059669" stroke-width="2" opacity="0.7" />
+    <circle cx="182" cy="146" r="5" fill="#059669" opacity="0.75" />
+
+    <rect x="214" y="124" width="44" height="44" rx="6" fill="#E0E7FF" />
+    <g fill="#6366F1">
+      <rect x="220" y="130" width="10" height="10" rx="2" opacity="0.9" />
+      <rect x="233" y="130" width="10" height="10" rx="2" opacity="0.55" />
+      <rect x="246" y="130" width="8" height="10" rx="2" opacity="0.75" />
+      <rect x="220" y="143" width="10" height="10" rx="2" opacity="0.55" />
+      <rect x="233" y="143" width="10" height="10" rx="2" opacity="0.9" />
+      <rect x="246" y="143" width="8" height="10" rx="2" opacity="0.6" />
+      <rect x="220" y="156" width="10" height="8" rx="2" opacity="0.75" />
+      <rect x="233" y="156" width="10" height="8" rx="2" opacity="0.6" />
+      <rect x="246" y="156" width="8" height="8" rx="2" opacity="0.9" />
+    </g>
+  </g>
+  <text x="52" y="192" font-size="10.5" fill="#64748B">visual patches</text>
+
+  <!-- Text encoder -->
+  <g filter="url(#soft)">
+    <rect x="438" y="84" width="250" height="124" rx="16" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+  <text x="458" y="112" font-size="12.5" font-weight="600" fill="#0F172A">Text encoder</text>
+
+  <g>
+    <rect x="458" y="126" width="74" height="18" rx="9" fill="#F1F5F9" stroke="#E2E8F0" />
+    <text x="468" y="139" font-size="10" fill="#64748B">a photo of</text>
+
+    <rect x="540" y="126" width="100" height="18" rx="9" fill="#DBEAFE" stroke="#93C5FD" />
+    <text x="550" y="139" font-size="10" font-weight="600" fill="#1D4ED8">a red bicycle</text>
+
+    <rect x="458" y="152" width="94" height="18" rx="9" fill="#F1F5F9" stroke="#E2E8F0" />
+    <text x="468" y="165" font-size="10" fill="#64748B">parked by the</text>
+
+    <rect x="560" y="152" width="106" height="18" rx="9" fill="#F1F5F9" stroke="#E2E8F0" />
+    <text x="570" y="165" font-size="10" fill="#64748B">river at sunset</text>
+  </g>
+  <text x="458" y="192" font-size="10.5" fill="#64748B">word tokens</text>
+
+  <!-- Arrows into embedding space -->
+  <path d="M157 214 C157 236 220 240 292 246" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M563 214 C563 236 500 240 428 246" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- Shared embedding space -->
+  <g filter="url(#soft)">
+    <rect x="170" y="250" width="380" height="142" rx="18" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+  <text x="360" y="274" text-anchor="middle" font-size="13" font-weight="600" fill="#0F172A">Shared embedding space</text>
+
+  <ellipse cx="302" cy="330" rx="118" ry="48" fill="#EFF6FF" opacity="0.85" />
+  <ellipse cx="422" cy="326" rx="106" ry="44" fill="#FFFBEB" opacity="0.9" />
+
+  <g stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.55">
+    <line x1="252" y1="322" x2="264" y2="316" />
+    <line x1="308" y1="344" x2="320" y2="338" />
+    <line x1="356" y1="308" x2="368" y2="314" />
+    <line x1="400" y1="334" x2="414" y2="326" />
+    <line x1="448" y1="314" x2="458" y2="320" />
+  </g>
+
+  <g fill="#2563EB">
+    <circle cx="252" cy="322" r="5.5" />
+    <circle cx="308" cy="344" r="5.5" />
+    <circle cx="356" cy="308" r="5.5" />
+    <circle cx="400" cy="334" r="5.5" />
+    <circle cx="448" cy="314" r="5.5" />
+  </g>
+  <g fill="#D97706">
+    <circle cx="264" cy="316" r="5.5" />
+    <circle cx="320" cy="338" r="5.5" />
+    <circle cx="368" cy="314" r="5.5" />
+    <circle cx="414" cy="326" r="5.5" />
+    <circle cx="458" cy="320" r="5.5" />
+  </g>
+
+  <text x="206" y="370" font-size="10.5" font-weight="600" fill="#2563EB">z vision</text>
+  <text x="514" y="370" text-anchor="end" font-size="10.5" font-weight="600" fill="#B45309">z language</text>
+
+  <text x="32" y="424" font-size="14.5" fill="#475569">Contrastive alignment keeps fine-grained visual concepts and words close.</text>
+</svg>

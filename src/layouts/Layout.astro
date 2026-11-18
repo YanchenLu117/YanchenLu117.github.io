@@ -1,0 +1,166 @@
+---
+import '../styles/global.css';
+import { profile } from '../data/profile';
+import { publications } from '../data/publications';
+import { withBase } from '../utils/base';
+
+interface Props {
+  title?: string;
+  description?: string;
+  pageType?: 'website' | 'article';
+  academicMeta?: boolean;
+  publishedTime?: string;
+}
+
+const {
+  title = `${profile.name} — ${profile.role.en}`,
+  description = `${profile.nameZh} (${profile.name}) — ${profile.role.en}, ${profile.affiliation.en}. Research interests: ${profile.researchInterests.map((interest) => interest.en).join(', ')}.`,
+  pageType = 'website',
+  academicMeta = true,
+  publishedTime,
+} = Astro.props;
+
+const site = Astro.site ?? Astro.url;
+const canonical = new URL(Astro.url.pathname, site);
+const profileUrl = new URL(withBase('/'), site).href;
+const avatarUrl = new URL(withBase(profile.avatar), site).href;
+
+const featured = publications.find((publication) => publication.selected) ?? publications[0];
+const citationAuthors = featured
+  ? featured.authors.map((author) => author.replace(/[*†]/g, '').trim())
+  : [];
+const citationYear = featured
+  ? (featured.venue.match(/\d{4}/)?.[0] ?? String(new Date().getFullYear()))
+  : '';
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  alternateName: profile.nameZh,
+  url: profileUrl,
+  image: avatarUrl,
+  jobTitle: profile.role.en,
+  email: profile.email,
+  affiliation: {
+    '@type': 'Organization',
+    name: profile.affiliation.en,
+    ...(profile.affiliationUrl ? { url: profile.affiliationUrl } : {}),
+  },
+  sameAs: profile.links
+    .filter((link) => link.href.startsWith('http'))
+    .map((link) => link.href),
+  knowsAbout: profile.researchInterests.map((interest) => interest.en),
+};
+
+const fontHref =
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap';
+---
+
+<!doctype html>
+<html lang="en" data-lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="robots" content="index, follow" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={profile.name} />
+    <link rel="canonical" href={canonical.href} />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={withBase('/favicon.svg')}
+    />
+    <link rel="apple-touch-icon" href={withBase(profile.avatar)} />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#ffffff"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#0b0f19"
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={fontHref} />
+
+    <!-- Apply the saved language before first paint to avoid a flash of the wrong language. -->
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('lang');
+          const lang = stored === 'zh' ? 'zh' : 'en';
+          document.documentElement.dataset.lang = lang;
+          document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        } catch {
+          /* localStorage may be unavailable in private mode */
+        }
+      })();
+    </script>
+
+    <!-- Apply the saved theme before first paint to avoid a flash of the wrong theme. -->
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isDark = stored ? stored === 'dark' : prefersDark;
+          document.documentElement.classList.toggle('dark', isDark);
+        } catch {
+          /* localStorage may be unavailable in private mode */
+        }
+      })();
+    </script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={pageType} />
+    <meta property="og:site_name" content={`${profile.name} — Academic Homepage`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={avatarUrl} />
+    <meta property="og:image:alt" content={`Portrait of ${profile.name}`} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={avatarUrl} />
+
+    {
+      academicMeta && featured && (
+        <>
+          <!-- Highwire Press tags for Google Scholar -->
+          <meta name="citation_title" content={featured.title} />
+          {citationAuthors.map((author) => <meta name="citation_author" content={author} />)}
+          <meta name="citation_publication_date" content={citationYear} />
+          <meta name="citation_conference_title" content={featured.venue} />
+          {featured.links?.pdf && <meta name="citation_pdf_url" content={featured.links.pdf} />}
+        </>
+      )
+    }
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(personSchema).replace(/</g, '\\u003c')}
+    />
+  </head>
+
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="skip-link sr-only z-50 rounded-md bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-lg focus:not-sr-only focus:fixed focus:left-4 focus:top-4 dark:bg-night dark:text-slate-100"
+    >
+      Skip to content
+    </a>
+    <slot />
+  </body>
+</html>

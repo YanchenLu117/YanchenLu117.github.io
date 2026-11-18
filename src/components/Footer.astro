@@ -1,0 +1,61 @@
+---
+import { profile } from '../data/profile';
+
+const now = new Date();
+const buildMonthEn = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  year: 'numeric',
+}).format(now);
+const buildMonthZh = new Intl.DateTimeFormat('zh-CN', {
+  month: 'long',
+  year: 'numeric',
+}).format(now);
+const year = now.getFullYear();
+---
+
+<footer class="site-footer border-t border-slate-200/70 dark:border-white/[0.07]">
+  <div
+    class="container-page flex flex-col items-center justify-between gap-1.5 py-6 text-[11.5px] text-slate-400 sm:flex-row dark:text-slate-500"
+  >
+    <p>© {year} {profile.name} · {profile.nameZh}</p>
+    <p>
+      <span class="lang-en" lang="en">
+        Last updated {buildMonthEn}
+        <span class="mx-1.5 text-slate-300 dark:text-slate-600">·</span>
+        Built with{' '}
+        <a
+          href="https://astro.build"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:text-slate-700 dark:hover:text-slate-300"
+        >Astro</a>{' '}
+        &amp;{' '}
+        <a
+          href="https://tailwindcss.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:text-slate-700 dark:hover:text-slate-300"
+        >Tailwind CSS</a>
+      </span>
+      <span class="lang-zh" lang="zh-CN">
+        最后更新于 {buildMonthZh}
+        <span class="mx-1.5 text-slate-300 dark:text-slate-600">·</span>
+        使用{' '}
+        <a
+          href="https://astro.build"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:text-slate-700 dark:hover:text-slate-300"
+        >Astro</a>{' '}
+        与{' '}
+        <a
+          href="https://tailwindcss.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:text-slate-700 dark:hover:text-slate-300"
+        >Tailwind CSS</a>{' '}
+        构建
+      </span>
+    </p>
+  </div>
+</footer>

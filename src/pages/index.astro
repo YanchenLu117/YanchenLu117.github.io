@@ -1,0 +1,384 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import NewsList from '../components/NewsList.astro';
+import PubCard from '../components/PubCard.astro';
+import Experience from '../components/Experience.astro';
+import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
+import Bilingual from '../components/Bilingual.astro';
+import { publications } from '../data/publications';
+import { ui } from '../data/i18n';
+
+const selectedCount = publications.filter((publication) => publication.selected).length;
+const topics = Array.from(new Set(publications.flatMap((publication) => publication.tags))).sort();
+const years = Array.from(new Set(publications.map((publication) => publication.year))).sort(
+  (a, b) => b - a,
+);
+---
+
+<Layout>
+  <Header />
+
+  <main id="main" class="container-page flex-1 pb-16">
+    <Hero />
+
+    <div class="mt-12 space-y-14 sm:mt-16 sm:space-y-16">
+      <NewsList />
+
+      {publications.length > 0 && (
+        <section
+          id="publications"
+          aria-labelledby="publications-title"
+          class="scroll-mt-24"
+        >
+        <div class="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
+          <h2 id="publications-title" class="section-title">
+            <Bilingual value={ui.sections.publications} />
+          </h2>
+
+          <div
+            class="pub-tabs no-print inline-flex items-center rounded-full border border-slate-200 bg-slate-50 p-0.5 text-[11.5px] font-medium dark:border-slate-800 dark:bg-white/[0.03]"
+            role="group"
+            aria-label="Publication scope"
+          >
+            <button
+              type="button"
+              data-pub-filter="selected"
+              aria-pressed="true"
+              aria-label={`Show selected publications (${selectedCount})`}
+              class="pub-tab"
+            >
+              <Bilingual value={ui.publications.selected} /><span
+                class="ml-1 font-mono text-[10px] text-slate-400 dark:text-slate-500"
+              >{selectedCount}</span>
+            </button>
+            <button
+              type="button"
+              data-pub-filter="all"
+              aria-pressed="false"
+              aria-label={`Show all publications (${publications.length})`}
+              class="pub-tab"
+            >
+              <Bilingual value={ui.publications.all} /><span
+                class="ml-1 font-mono text-[10px] text-slate-400 dark:text-slate-500"
+              >{publications.length}</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="section-rule"></div>
+
+        <div
+          class="no-print mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2"
+        >
+          <div
+            class="topic-filter flex flex-wrap items-center gap-1"
+            role="group"
+            aria-label="Filter publications by topic"
+          >
+            <span
+              class="mr-1 text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-400 dark:text-slate-500"
+            >
+              <Bilingual value={ui.publications.topics} />
+            </span>
+            <button
+              type="button"
+              class="topic-chip"
+              data-topic-filter="all"
+              aria-pressed="true"
+            >
+              <Bilingual value={ui.publications.all} />
+            </button>
+            {
+              topics.map((topic) => (
+                <button
+                  type="button"
+                  class="topic-chip"
+                  data-topic-filter={topic}
+                  aria-pressed="false"
+                >
+                  {topic}
+                </button>
+              ))
+            }
+          </div>
+
+          <label
+            class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-400 dark:text-slate-500"
+          >
+            <Bilingual value={ui.publications.year} />
+            <span class="relative inline-flex items-center">
+              <select
+                id="year-filter"
+                class="appearance-none rounded-full border border-slate-200 bg-white py-1 pl-2.5 pr-7 text-[11px] font-medium normal-case tracking-normal text-slate-600 outline-none transition-colors hover:border-slate-300 focus-visible:border-blue-400 dark:border-slate-800 dark:bg-white/[0.03] dark:text-slate-300 dark:hover:border-slate-700"
+              >
+                <option value="all">All</option>
+                {years.map((year) => <option value={String(year)}>{year}</option>)}
+              </select>
+              <Icon
+                name="chevronDown"
+                size={11}
+                class="pointer-events-none absolute right-2.5 text-slate-400 dark:text-slate-500"
+              />
+            </span>
+          </label>
+        </div>
+
+        <div id="publication-list" class="mt-6 space-y-8">
+          {publications.map((publication) => <PubCard publication={publication} />)}
+        </div>
+
+        <div
+          id="pub-empty"
+          class="mt-6 rounded-md border border-dashed border-slate-200 px-4 py-8 text-center dark:border-slate-800"
+          role="status"
+          hidden
+        >
+          <p class="text-[13px] text-slate-500 dark:text-slate-400">
+            <Bilingual value={ui.publications.noResults} />
+          </p>
+          <button
+            id="pub-reset"
+            type="button"
+            class="mt-2 text-[12px] font-medium text-blue-700 underline decoration-blue-300 underline-offset-2 transition-colors hover:text-blue-800 dark:text-blue-400 dark:decoration-blue-500/50 dark:hover:text-blue-300"
+          >
+            <Bilingual value={ui.publications.resetFilters} />
+          </button>
+        </div>
+        </section>
+      )}
+
+      <Experience />
+    </div>
+  </main>
+
+  <Footer />
+
+  <dialog
+    id="lightbox"
+    aria-label="Teaser image preview"
+    class="m-auto max-w-none overflow-visible bg-transparent p-0"
+  >
+    <div class="relative">
+      <img
+        id="lightbox-image"
+        alt=""
+        class="max-h-[80vh] w-auto max-w-[92vw] rounded-md border border-slate-200 bg-white object-contain shadow-2xl dark:border-slate-800"
+      />
+      <button
+        id="lightbox-close"
+        type="button"
+        class="absolute -right-3 -top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-lg transition-colors hover:text-slate-950 dark:border-slate-800 dark:bg-[#101624] dark:text-slate-300 dark:hover:text-white"
+        aria-label="Close image preview"
+      >
+        <Icon name="close" size={15} />
+      </button>
+      <p
+        id="lightbox-caption"
+        class="mx-auto mt-3 max-w-[88vw] text-balance text-center text-[12.5px] leading-5 text-slate-300"
+      >
+      </p>
+    </div>
+  </dialog>
+
+  <script>
+    /* ---------------------------------------------------------------- */
+    /* Publications: Selected / Topic / Year filters                      */
+    /* ---------------------------------------------------------------- */
+    const scopeButtons = document.querySelectorAll<HTMLButtonElement>('[data-pub-filter]');
+    const topicButtons = document.querySelectorAll<HTMLButtonElement>('[data-topic-filter]');
+    const yearFilter = document.getElementById('year-filter') as HTMLSelectElement | null;
+    const pubItems = document.querySelectorAll<HTMLElement>('[data-pub-item]');
+    const emptyState = document.getElementById('pub-empty');
+    const resetButton = document.getElementById('pub-reset');
+
+    let scope = 'selected';
+    let topic = 'all';
+    let year = 'all';
+
+    function applyFilters(animate = true) {
+      let visibleCount = 0;
+
+      pubItems.forEach((item) => {
+        const itemTags = (item.dataset.tags ?? '').split('|');
+        const matchesScope = scope === 'all' || item.dataset.selected === 'true';
+        const matchesTopic = topic === 'all' || itemTags.includes(topic);
+        const matchesYear = year === 'all' || item.dataset.year === year;
+        const shouldShow = matchesScope && matchesTopic && matchesYear;
+
+        item.hidden = !shouldShow;
+
+        if (shouldShow) {
+          visibleCount += 1;
+          if (animate) {
+            item.classList.remove('pub-enter');
+            void item.offsetWidth;
+            item.classList.add('pub-enter');
+          }
+        }
+      });
+
+      scopeButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.pubFilter === scope));
+      });
+      topicButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.topicFilter === topic));
+      });
+      if (yearFilter) yearFilter.value = year;
+      if (emptyState) emptyState.hidden = visibleCount > 0;
+    }
+
+    scopeButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        scope = button.dataset.pubFilter ?? 'selected';
+        applyFilters();
+      });
+    });
+
+    topicButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        topic = button.dataset.topicFilter ?? 'all';
+        applyFilters();
+      });
+    });
+
+    yearFilter?.addEventListener('change', () => {
+      year = yearFilter.value;
+      applyFilters();
+    });
+
+    resetButton?.addEventListener('click', () => {
+      scope = 'selected';
+      topic = 'all';
+      year = 'all';
+      applyFilters();
+    });
+
+    /* ---------------------------------------------------------------- */
+    /* Abstract / BibTeX inline drawers                                  */
+    /* ---------------------------------------------------------------- */
+    document.querySelectorAll<HTMLButtonElement>('[data-drawer-toggle]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const card = button.closest<HTMLElement>('[data-pub-item]');
+        const name = button.dataset.drawerToggle;
+        if (!card || !name) return;
+
+        const drawer = card.querySelector<HTMLElement>(
+          `[data-drawer][data-drawer-name="${name}"]`,
+        );
+        if (!drawer) return;
+
+        const willOpen = drawer.dataset.open !== 'true';
+
+        card.querySelectorAll<HTMLElement>('[data-drawer]').forEach((item) => {
+          item.dataset.open = 'false';
+          item.setAttribute('inert', '');
+        });
+        card.querySelectorAll<HTMLButtonElement>('[data-drawer-toggle]').forEach((item) => {
+          item.setAttribute('aria-expanded', 'false');
+        });
+
+        if (willOpen) {
+          drawer.dataset.open = 'true';
+          drawer.removeAttribute('inert');
+          button.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    /* ---------------------------------------------------------------- */
+    /* BibTeX drawer copy                                                */
+    /* ---------------------------------------------------------------- */
+    function fallbackCopy(text: string): boolean {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      try {
+        return document.execCommand('copy');
+      } catch {
+        return false;
+      } finally {
+        textarea.remove();
+      }
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('[data-copy-bibtex]').forEach((button) => {
+      const targetId = button.dataset.copyTarget;
+      const code = targetId ? document.getElementById(targetId) : null;
+      const label = button.querySelector<HTMLElement>('.copy-label');
+      const copyIcon = button.querySelector<SVGElement>('.copy-icon');
+      const checkIcon = button.querySelector<SVGElement>('.copy-check');
+      let resetTimer: number | undefined;
+
+      button.addEventListener('click', async () => {
+        const text = code?.textContent ?? '';
+        if (!text) return;
+
+        let copied = true;
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            copied = fallbackCopy(text);
+          }
+        } catch {
+          copied = fallbackCopy(text);
+        }
+
+        if (!copied) return;
+
+        button.classList.add('is-copied');
+        if (label) label.textContent = 'Copied!';
+        copyIcon?.classList.add('hidden');
+        checkIcon?.classList.remove('hidden');
+
+        window.clearTimeout(resetTimer);
+        resetTimer = window.setTimeout(() => {
+          button.classList.remove('is-copied');
+          if (label) label.textContent = 'Copy';
+          copyIcon?.classList.remove('hidden');
+          checkIcon?.classList.add('hidden');
+        }, 1800);
+      });
+    });
+
+    /* ---------------------------------------------------------------- */
+    /* Teaser lightbox                                                   */
+    /* ---------------------------------------------------------------- */
+    const lightbox = document.getElementById('lightbox') as HTMLDialogElement | null;
+    const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement | null;
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    document.querySelectorAll<HTMLButtonElement>('[data-lightbox]').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const src = trigger.dataset.src;
+        const caption = trigger.dataset.caption ?? '';
+        if (!src || !lightbox || !lightboxImage) return;
+
+        lightboxImage.src = src;
+        lightboxImage.alt = caption;
+        if (lightboxCaption) lightboxCaption.textContent = caption;
+        lightbox.showModal();
+      });
+    });
+
+    lightboxClose?.addEventListener('click', () => lightbox?.close());
+
+    lightbox?.addEventListener('click', (event) => {
+      if (event.target === lightbox) lightbox.close();
+    });
+
+    lightbox?.addEventListener('close', () => {
+      lightboxImage?.removeAttribute('src');
+    });
+  </script>
+</Layout>

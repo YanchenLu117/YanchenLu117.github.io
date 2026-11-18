@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="450" viewBox="0 0 720 450" role="img" aria-labelledby="trustbench-title trustbench-desc" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title id="trustbench-title">TrustBench accuracy under distribution shift</title>
+  <desc id="trustbench-desc">Multimodal LLM accuracy drops by up to 34 points under real-world joint image and text distribution shift.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" />
+      <stop offset="1" stop-color="#F1F5F9" />
+    </linearGradient>
+    <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="1.2" cy="1.2" r="1.1" fill="#CBD5E1" opacity="0.28" />
+    </pattern>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0F172A" flood-opacity="0.06" />
+    </filter>
+    <marker id="arrow-down" viewBox="0 0 10 10" refX="5" refY="8" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 10 0 5 10z" fill="#B91C1C" />
+    </marker>
+  </defs>
+
+  <rect width="720" height="450" fill="url(#bg)" />
+  <rect width="720" height="450" fill="url(#dots)" />
+
+  <text x="32" y="46" font-size="22" font-weight="700" fill="#0F172A" letter-spacing="-0.3">TrustBench</text>
+  <rect x="166" y="26" width="92" height="26" rx="13" fill="#EFF6FF" stroke="#BFDBFE" />
+  <text x="212" y="44" text-anchor="middle" font-size="11" font-weight="600" fill="#1D4ED8">12 domains</text>
+
+  <rect x="566" y="26" width="122" height="30" rx="15" fill="#FEF2F2" stroke="#FECACA" />
+  <text x="627" y="46" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B91C1C">up to −34 pts</text>
+
+  <g filter="url(#soft)">
+    <rect x="32" y="78" width="656" height="268" rx="16" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text x="116" y="100" font-size="11" font-weight="600" fill="#64748B">Accuracy (%)</text>
+
+  <g font-size="10" fill="#94A3B8" text-anchor="end">
+    <text x="100" y="122">80</text>
+    <text x="100" y="168">60</text>
+    <text x="100" y="213">40</text>
+    <text x="100" y="259">20</text>
+  </g>
+
+  <g stroke="#F1F5F9" stroke-width="1">
+    <line x1="116" y1="164" x2="644" y2="164" />
+    <line x1="116" y1="209" x2="644" y2="209" />
+    <line x1="116" y1="255" x2="644" y2="255" />
+  </g>
+  <line x1="116" y1="300" x2="644" y2="300" stroke="#CBD5E1" stroke-width="1.2" />
+
+  <rect x="464" y="112" width="180" height="188" fill="#FFFBEB" opacity="0.85" />
+  <line x1="464" y1="112" x2="464" y2="300" stroke="#FCD34D" stroke-width="1" stroke-dasharray="4 4" />
+  <text x="554" y="128" text-anchor="middle" font-size="10" font-weight="500" fill="#B45309">real-world shift</text>
+
+  <g font-size="10" fill="#64748B">
+    <circle cx="386" cy="96" r="4" fill="#2563EB" />
+    <text x="396" y="100">in-distribution</text>
+    <line x1="492" y1="96" x2="508" y2="96" stroke="#D97706" stroke-width="2" stroke-dasharray="4 3" />
+    <text x="514" y="100">shifted</text>
+  </g>
+
+  <path d="M116 142 C200 144 264 136 330 142 C424 150 526 146 644 160" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" />
+  <path d="M116 150 C210 170 290 202 376 218 C470 234 550 237 644 237" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="7 5" />
+
+  <g fill="#FFFFFF" stroke="#2563EB" stroke-width="2">
+    <circle cx="200" cy="144" r="3.6" />
+    <circle cx="360" cy="145" r="3.6" />
+    <circle cx="520" cy="156" r="3.6" />
+    <circle cx="644" cy="160" r="3.6" />
+  </g>
+  <g fill="#FFFFFF" stroke="#D97706" stroke-width="2">
+    <circle cx="200" cy="164" r="3.6" />
+    <circle cx="360" cy="216" r="3.6" />
+    <circle cx="520" cy="236" r="3.6" />
+    <circle cx="644" cy="237" r="3.6" />
+  </g>
+
+  <line x1="570" y1="168" x2="570" y2="232" stroke="#B91C1C" stroke-width="1.5" marker-start="url(#arrow-down)" marker-end="url(#arrow-down)" />
+  <rect x="490" y="188" width="64" height="24" rx="12" fill="#FEF2F2" stroke="#FECACA" />
+  <text x="522" y="204" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B91C1C">−34 pts</text>
+
+  <g font-size="10" fill="#94A3B8">
+    <text x="116" y="322">mild</text>
+    <text x="380" y="322" text-anchor="middle">moderate</text>
+    <text x="644" y="322" text-anchor="end">severe</text>
+    <text x="644" y="338" text-anchor="end" font-style="italic">distribution shift →</text>
+  </g>
+
+  <text x="32" y="388" font-size="14.5" fill="#475569">State-of-the-art multimodal LLMs lose up to 34 accuracy points</text>
+  <text x="32" y="412" font-size="14.5" fill="#475569">when visual and textual distributions shift together.</text>
+</svg>

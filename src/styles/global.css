@@ -1,0 +1,479 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Source Serif 4", "Songti SC", "STSong", "Noto Serif SC", "SimSun", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-accent: #2563eb;
+  --color-ink: #0f172a;
+  --color-night: #0b0f19;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    overflow-anchor: none;
+  }
+
+  body {
+    @apply bg-white font-sans text-[15.5px] leading-7 text-slate-800 antialiased dark:bg-night dark:text-slate-200;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overflow-anchor: none;
+  }
+
+  ::selection {
+    @apply bg-blue-600/15 text-blue-950 dark:bg-blue-400/25 dark:text-blue-50;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue-600 dark:outline-blue-400;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  [data-lang="en"] .lang-zh,
+  [data-lang="zh"] .lang-en {
+    display: none !important;
+  }
+
+  html[data-lang="zh"] h1,
+  html[data-lang="zh"] h2,
+  html[data-lang="zh"] .section-title {
+    letter-spacing: 0.01em !important;
+  }
+
+  dialog::backdrop {
+    background-color: rgb(2 6 23 / 0.72);
+    backdrop-filter: blur(5px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Override the layered `[hidden]` rule above when printing: the printed
+     publication list should always include every paper. */
+  @media print {
+    .pub-item[hidden] {
+      display: block !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-[880px] px-5 sm:px-6;
+  }
+
+  .section-title {
+    @apply font-serif text-[25px] font-semibold tracking-tight text-slate-900 dark:text-slate-100;
+  }
+
+  .section-rule {
+    @apply mt-3 h-px w-full bg-slate-200 dark:bg-slate-800;
+  }
+
+  .bio-link {
+    @apply font-medium text-blue-700 underline decoration-blue-300 decoration-1 underline-offset-[3px] transition-colors hover:text-blue-800 hover:decoration-blue-500 dark:text-blue-400 dark:decoration-blue-500/50 dark:hover:text-blue-300 dark:hover:decoration-blue-400;
+  }
+
+  .link-pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[12px] font-medium text-slate-600 shadow-[0_1px_2px_rgba(15,23,42,0.03)] transition-colors hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 dark:border-slate-800 dark:bg-white/[0.03] dark:text-slate-300 dark:hover:border-blue-400/40 dark:hover:bg-blue-400/10 dark:hover:text-blue-300;
+  }
+
+  .link-pill[aria-expanded="true"] {
+    @apply border-blue-300 bg-blue-50 text-blue-700 dark:border-blue-400/40 dark:bg-blue-400/10 dark:text-blue-300;
+  }
+
+  .contact-copy-feedback {
+    @apply pointer-events-none absolute left-0 top-full z-20 mt-2 rounded-md bg-slate-900 px-2 py-1 text-[10px] font-medium text-white opacity-0 shadow-md transition-all duration-150 dark:bg-white dark:text-slate-900;
+    visibility: hidden;
+    transform: translateY(-2px);
+  }
+
+  .contact-copy-feedback[data-visible="true"] {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pub-tab {
+    @apply rounded-full px-3 py-1.5 text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100;
+  }
+
+  .pub-tab[aria-pressed="true"] {
+    @apply bg-white text-slate-900 shadow-sm dark:bg-white/10 dark:text-white;
+  }
+
+  .lang-switch {
+    @apply rounded-full px-1.5 py-1 text-slate-400 transition-colors hover:text-slate-900 dark:text-slate-500 dark:hover:text-slate-200;
+  }
+
+  html[data-lang="en"] .lang-switch[data-lang-switch="en"],
+  html[data-lang="zh"] .lang-switch[data-lang-switch="zh"] {
+    @apply bg-white text-slate-900 shadow-sm dark:bg-white/10 dark:text-white;
+  }
+
+  .topic-chip {
+    @apply rounded-full px-2.5 py-1 text-[11px] font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/[0.06] dark:hover:text-slate-100;
+  }
+
+  .topic-chip[aria-pressed="true"] {
+    @apply bg-slate-100 text-slate-900 dark:bg-white/10 dark:text-white;
+  }
+
+  .news-list strong {
+    @apply font-semibold text-slate-900 dark:text-slate-100;
+  }
+
+  .pub-enter {
+    animation: pub-enter 0.3s ease-out both;
+  }
+
+  .pub-drawer {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.22s ease;
+  }
+
+  .pub-drawer[data-open="true"] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .pub-drawer > div {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .copy-button.is-copied,
+  .copy-button.is-copied:hover {
+    color: #059669 !important;
+  }
+
+  html.dark .copy-button.is-copied,
+  html.dark .copy-button.is-copied:hover {
+    color: #34d399 !important;
+  }
+
+  .print-only {
+    display: none;
+  }
+
+  /* Long-form notes --------------------------------------------------- */
+  .note-prose {
+    @apply text-[15.5px] leading-[1.8] text-slate-800 dark:text-slate-200;
+  }
+
+  .note-prose > * + * {
+    @apply mt-5;
+  }
+
+  .note-prose h2 {
+    @apply mt-10 font-serif text-[24px] font-semibold leading-snug tracking-tight text-slate-900 dark:text-slate-100;
+  }
+
+  .note-prose h3 {
+    @apply mt-8 font-serif text-[19px] font-semibold leading-snug tracking-tight text-slate-900 dark:text-slate-100;
+  }
+
+  .note-prose a {
+    @apply font-medium text-blue-700 underline decoration-blue-300 decoration-1 underline-offset-[3px] transition-colors hover:text-blue-800 hover:decoration-blue-500 dark:text-blue-400 dark:decoration-blue-500/50 dark:hover:text-blue-300;
+  }
+
+  .note-prose strong {
+    @apply font-semibold text-slate-900 dark:text-slate-100;
+  }
+
+  .note-prose ul {
+    @apply list-disc space-y-2 pl-5;
+  }
+
+  .note-prose ol {
+    @apply list-decimal space-y-2 pl-5;
+  }
+
+  .note-prose li::marker {
+    @apply text-slate-400 dark:text-slate-500;
+  }
+
+  .note-prose blockquote {
+    @apply border-l-2 border-blue-200 pl-4 italic text-slate-600 dark:border-blue-400/30 dark:text-slate-400;
+  }
+
+  .note-prose :not(pre) > code {
+    @apply rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[0.82em] text-slate-800 dark:bg-white/10 dark:text-slate-200;
+  }
+
+  .note-prose pre {
+    @apply overflow-x-auto rounded-md border border-slate-200 p-4 font-mono text-[12.5px] leading-6 dark:border-slate-800;
+  }
+
+  .note-prose img {
+    @apply my-7 rounded-md border border-slate-200 dark:border-slate-800;
+  }
+
+  .note-prose table {
+    @apply my-6 w-full border-collapse text-left text-[13.5px];
+  }
+
+  .note-prose th,
+  .note-prose td {
+    @apply border-b border-slate-200 px-3 py-2 dark:border-slate-800;
+  }
+
+  .note-prose th {
+    @apply font-semibold text-slate-900 dark:text-slate-100;
+  }
+
+  .note-prose hr {
+    @apply my-10 border-slate-200 dark:border-slate-800;
+  }
+
+  .note-prose .katex-display {
+    @apply my-7 overflow-x-auto overflow-y-hidden py-1;
+  }
+}
+
+@keyframes pub-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Shiki dual-theme syntax highlighting */
+html.dark .astro-code,
+html.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* Slim, unobtrusive scrollbars inside code blocks and dialogs. */
+pre::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background: rgb(100 116 139 / 0.3);
+  border-radius: 999px;
+}
+
+/* ------------------------------------------------------------------
+   Print: a clean, high-contrast CV and publication list.
+   ------------------------------------------------------------------ */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  html,
+  html.dark {
+    color-scheme: light !important;
+    background: #ffffff !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 10pt !important;
+    line-height: 1.5 !important;
+  }
+
+  body * {
+    color: #111827 !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  a {
+    color: #111827 !important;
+    text-decoration: underline !important;
+  }
+
+  .site-header,
+  .site-footer,
+  .no-print,
+  .hero-avatar,
+  .hero-links,
+  .pub-teaser,
+  .pub-actions,
+  .pub-drawer,
+  .exp-monogram,
+  #pub-empty,
+  dialog,
+  .skip-link {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+    font-size: 9.5pt !important;
+    line-height: 1.5 !important;
+  }
+
+  .container-page {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  main {
+    padding-bottom: 0 !important;
+  }
+
+  main > div {
+    margin-top: 16pt !important;
+  }
+
+  main > div > * + * {
+    margin-top: 16pt !important;
+  }
+
+  #about {
+    padding-top: 0 !important;
+  }
+
+  #about > div {
+    display: block !important;
+  }
+
+  h1 {
+    font-size: 25pt !important;
+    line-height: 1.1 !important;
+  }
+
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  .section-title {
+    font-size: 15pt !important;
+    margin: 0 !important;
+  }
+
+  .section-rule {
+    margin-top: 4pt !important;
+    background: #d1d5db !important;
+  }
+
+  /* Always print the complete publication list, regardless of screen filters.
+     The display override lives in @layer base so it can beat the layered
+     `[hidden]` rule; this section handles the remaining print typography. */
+  .pub-item {
+    display: block !important;
+    break-inside: avoid;
+    margin: 0 0 12pt !important;
+  }
+
+  #publication-list {
+    margin-top: 8pt !important;
+  }
+
+  #publication-list > * + * {
+    margin-top: 10pt !important;
+  }
+
+  .pub-item h3 {
+    font-size: 11pt !important;
+    line-height: 1.3 !important;
+  }
+
+  .pub-item p {
+    font-size: 9pt !important;
+    line-height: 1.45 !important;
+  }
+
+  .pub-item sup {
+    font-size: 6.5pt !important;
+  }
+
+  .news-list {
+    margin-top: 4pt !important;
+  }
+
+  .news-list li {
+    break-inside: avoid;
+    padding-top: 4pt !important;
+    padding-bottom: 4pt !important;
+  }
+
+  #experience ul {
+    margin-top: 6pt !important;
+  }
+
+  #experience li {
+    break-inside: avoid;
+  }
+
+  .note-prose {
+    font-size: 10pt !important;
+    line-height: 1.6 !important;
+  }
+
+  .note-article,
+  .note-index {
+    padding-top: 0 !important;
+  }
+
+  .note-article {
+    max-width: none !important;
+  }
+
+  .note-prose h2 {
+    font-size: 14pt !important;
+    margin-top: 16pt !important;
+  }
+
+  .note-prose h3 {
+    font-size: 11.5pt !important;
+    margin-top: 12pt !important;
+  }
+
+  .note-prose pre {
+    border: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+  }
+
+  .note-prose .katex-display {
+    overflow: visible !important;
+  }
+}
