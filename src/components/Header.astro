@@ -17,19 +17,15 @@ const navItems = [
 ];
 ---
 
-<header
-  class="site-header sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur-md dark:border-white/[0.07] dark:bg-night/85"
->
+<header class="site-header sticky top-0 z-40">
   <div
     class="container-page flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 py-2.5 sm:py-3"
   >
     <a href={withBase('/')} class="inline-flex items-baseline gap-2">
-      <span
-        class="font-serif text-[17px] font-semibold tracking-tight text-slate-900 dark:text-slate-100"
-      >
+      <span class="font-serif text-[18px] font-medium tracking-[-0.01em] text-ink">
         <span class="lang-en" lang="en">{profile.name}</span><span class="lang-zh" lang="zh-CN">{profile.nameZh}</span>
       </span>
-      <span class="hidden text-[11px] font-medium text-slate-400 sm:inline dark:text-slate-500">
+      <span class="hidden font-sans text-[10px] uppercase tracking-[0.12em] text-muted sm:inline">
         <span class="lang-en" lang="en">{profile.nameZh}</span><span class="lang-zh" lang="zh-CN">{profile.name}</span>
       </span>
     </a>
@@ -42,7 +38,7 @@ const navItems = [
         navItems.map((item) => (
           <a
             href={item.href}
-            class="whitespace-nowrap rounded-full px-2.5 py-1 text-[12.5px] font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/[0.06] dark:hover:text-slate-100"
+            class="nav-link whitespace-nowrap px-2.5 py-1 text-[12px] font-medium"
           >
             <Bilingual value={item.label} />
           </a>
@@ -50,9 +46,9 @@ const navItems = [
       }
     </nav>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-3">
       <div
-        class="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 p-0.5 text-[10px] font-semibold dark:border-slate-800 dark:bg-white/[0.03]"
+        class="flex items-center gap-1.5"
         role="group"
         aria-label="Language / 语言"
       >
@@ -65,6 +61,7 @@ const navItems = [
         >
           EN
         </button>
+        <span class="font-mono text-[10px] text-hairline" aria-hidden="true">/</span>
         <button
           type="button"
           class="lang-switch"
@@ -79,13 +76,13 @@ const navItems = [
       <button
         id="theme-toggle"
         type="button"
-        class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition-colors hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-white"
+        class="inline-flex h-7 w-7 items-center justify-center text-muted transition-colors hover:text-accent"
         aria-label="Toggle color theme"
         aria-pressed="false"
         title="Toggle color theme"
       >
-        <Icon name="moon" size={14} class="block dark:hidden" />
-        <Icon name="sun" size={14} class="hidden dark:block" />
+        <Icon name="moon" size={15} class="block dark:hidden" />
+        <Icon name="sun" size={15} class="hidden dark:block" />
       </button>
     </div>
   </div>

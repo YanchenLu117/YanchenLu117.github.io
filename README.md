@@ -2,21 +2,23 @@
 
 一个现代、简洁、数据驱动的个人学术主页，融合 Jon Barron / Tri Dao / Distill / Lilian Weng 等学术主页的版式与交互基因，使用 **Astro + Tailwind CSS + TypeScript** 构建，纯静态输出，可直接部署到 GitHub Pages。
 
-- 单栏居中版式（最大宽度 880px），Inter + Source Serif 4 + JetBrains Mono
+- 单栏居中版式（最大宽度 880px），Newsreader + Noto Serif SC + Inter + JetBrains Mono
+- 纸墨质感配色：象牙纸、墨色正文、牛津深红强调；深色模式为暖调黑曜石
+- Hero 右侧为原生 `<canvas>` 绘制的旋转 Bloch sphere / 流形线框，无第三方图形库
 - 浅色 / 深色模式，跟随系统并记忆手动选择
 - 中英双语切换（EN / 中），无刷新、持久化，与暗黑模式状态相互独立
-- 联系方式直接展示邮箱，右侧一键复制，并显示 `Copied` / `已复制`
+- 联系方式直接展示邮箱文字链接，右侧一键复制，并显示 `Copied` / `已复制`
 - 所有内容与视图分离，日常维护只改 `src/data/` 下的数据文件
-- Publications 支持 `Selected / All`、Topic 胶囊、Year 下拉过滤，以及平滑的空状态提示；列表为空时整个区块与导航入口会自动隐藏
-- Teaser 固定 16:10，悬停切换对比图，点击可放大；统一 `slate-200 / slate-800` 细边框
-- Abstract 与 BibTeX 采用**原地手风琴抽屉**，不遮挡页面；BibTeX 支持一键复制与绿色对勾反馈
+- Publications 支持 `Selected / All`、Topic 筛选、Year 下拉过滤，以及平滑的空状态提示；列表为空时整个区块与导航入口会自动隐藏
+- Teaser 固定 16:10，悬停切换对比图，点击可放大；统一 `border-hairline` 0.5px 细边框
+- Abstract 与 BibTeX 采用**原地手风琴抽屉**，不遮挡页面；BibTeX 复制后使用强调色对勾反馈
 - 作者名自动加粗本人，支持 `*` 共同一作与 `†` 通讯作者；奖项使用纯文字强调
-- Notes 技术笔记模块：MDX + KaTeX 数学公式 + Shiki 代码高亮
+- Notes 数字花园：MDX + KaTeX + Shiki，支持 Tufte 边栏旁注与 Seedling / Budding / Evergreen 生长阶段
 - 学术 SEO：`citation_*`、OpenGraph、Twitter Card、Schema.org Person JSON-LD
 - 打印样式：`Cmd/Ctrl + P` 输出干净的纯白学术简历与完整论文清单
 - GitHub Actions 自动构建并部署到 GitHub Pages
 
-> ℹ️ 论文列表当前为空（ICLR 2027 / WWW 2027 双盲审稿期），首页与导航中的 Publications 会自动隐藏；论文录用或挂出 arXiv 后，往 `publications.ts` 加入对象即可恢复。头像使用 `YL` 首字母徽章占位；`public/papers/` 中的示例 Teaser 可在后续添加论文时替换。
+> ℹ️ 论文列表当前为空（ICLR 2027 / WWW 2027 双盲审稿期），首页与导航中的 Publications 会自动隐藏；论文录用或挂出 arXiv 后，往 `publications.ts` 加入对象即可恢复。`public/avatar.jpg` 仅用于社交预览 / Apple touch icon，首页右侧已改为 canvas 线框徽记。
 
 ---
 
@@ -53,7 +55,7 @@ npm run preview   # 本地预览构建结果
 - `src/data/i18n.ts`：导航、区块标题、Notes 与 Publications 界面标签
 - `src/components/Bilingual.astro`：简单文案的双语渲染
 
-邮箱使用显式展示的胶囊按钮：
+邮箱使用显式展示的纯文字链接（无胶囊外框）：
 
 ```ts
 links: [
@@ -61,7 +63,7 @@ links: [
     label: { en: 'Email', zh: '邮箱' },
     href: 'mailto:yanchen_lu117@163.com',
     icon: 'mail',
-    value: 'yanchen_lu117@163.com', // 胶囊中直接显示的文本
+    value: 'yanchen_lu117@163.com', // 链接中直接显示的文本
   },
 ],
 ```
@@ -83,7 +85,7 @@ links: [
 | `affiliation` / `affiliationUrl` | 学校或机构（双语）及主页链接；URL 留空时机构以纯文本显示 |
 | `subtitle` | Hero 区身份副标题，双语 |
 | `email` / `location` | 邮箱、所在城市（`location` 为双语） |
-| `avatar` | 头像路径，默认 `/avatar.jpg` |
+| `avatar` | 社交预览 / Apple touch 图标路径；Hero 右侧使用 canvas，不显示此图片 |
 | `bio` | 简介段落数组，每段为 `{ en, zh }`，支持简单内联 HTML（链接请使用 `class="bio-link"`） |
 | `researchInterests` | 研究方向标签，每项为 `{ en, zh }` |
 | `links` | 社交链接，`label` 为双语，`icon` 可选 `mail` / `scholar` / `github` / `twitter` / `cv`；`value` 用于显式展示邮箱等文本 |
@@ -118,7 +120,7 @@ links: [
   selected: true,           // 是否出现在默认的 Selected 列表
   tldr: '一句话核心贡献',
   abstract: '点击 Abstract 后原地展开的摘要段落。',
-  tags: ['Agentic AI', 'Representation Learning'], // 自动生成 Topic 过滤胶囊
+  tags: ['Agentic AI', 'Representation Learning'], // 自动生成 Topic 筛选
   teaser: '/papers/paper.svg',
   teaserHover: '/papers/paper-hover.svg', // 可选，悬停时淡入
   links: { pdf: '...', code: '...', project: '...', demo: '...' },
@@ -128,7 +130,7 @@ links: [
 
 - 本人姓名会与 `profile.name` 精确匹配并自动加粗。
 - 作者字符串末尾的 `*` / `†` 会渲染为上标，并自动生成脚注。
-- `tags` 自动去重生成主题过滤胶囊；`year` 自动生成年份下拉，无需维护额外配置。
+- `tags` 自动去重生成主题筛选；`year` 自动生成年份下拉，无需维护额外配置。
 - `Selected / All`、Topic、Year 三个维度可以组合过滤；无结果时会显示空状态与 “Reset filters”。
 - `links` 中所有字段都是可选的，缺省按钮不会显示。
 - `highlight` 是纯文字强调，不再使用奖杯图标或彩色底块。
@@ -140,18 +142,20 @@ links: [
 
 | 文件 | 建议规格 |
 | --- | --- |
-| `public/avatar.jpg` | 400 × 400（正方形，代码中显示 176 × 176）；当前为 `YL` 字母徽章占位 |
+| `public/avatar.jpg` | 400 × 400；用于 OpenGraph / Apple touch 预览。Hero 右侧为 canvas 线框徽记 |
 | `public/papers/*.svg` | 固定 16:10，推荐 720 × 450；也支持 `.jpg` / `.png`，改一下数据里的路径即可 |
 | `public/favicon.svg` | 站点图标，可替换为自己的 monogram |
 
-Teaser 在桌面端显示为 180 × 112.5，移动端为整列宽度；容器统一使用 `border-slate-200 dark:border-slate-800` 与 `rounded-md`。建议同时提供静态图与悬停图；没有 `teaserHover` 时悬停不会切换。
+Teaser 在桌面端显示为 180 × 112.5，移动端为整列宽度；容器统一使用 `border-hairline` 0.5px 细边框，不使用圆角与重阴影。建议同时提供静态图与悬停图；没有 `teaserHover` 时悬停不会切换。
 
 ### 5. 配色与字体
 
-- 颜色、字体和通用样式集中在 `src/styles/global.css` 的 `@theme` 与 `@layer components` 中。
-- 字体通过 `src/layouts/Layout.astro` 里的 Google Fonts 链接加载：Inter（正文）、Source Serif 4（标题）、JetBrains Mono（日期 / BibTeX / 代码）。中文模式会自动回退到 PingFang SC / Hiragino Sans GB / Microsoft YaHei（正文）与 Songti SC / STSong / SimSun（标题）。如在国内访问不稳定，可换成本地字体文件。
+- 颜色、字体和通用样式集中在 `src/styles/global.css` 的 CSS 变量、`@theme inline` 与 `@layer components` 中。
+- 浅色模式：纸色 `#FAF9F5`、次级底色 `#F2F0E8`、墨色 `#1C1B18`、次要文字 `#5C5A52`、强调色 `#8B2635`。
+- 深色模式：暖调黑曜石 `#121210`、正文 `#E6E4DD`、强调色 `#D47A84`。
+- 字体通过 `src/layouts/Layout.astro` 里的 Google Fonts 链接加载：Newsreader（英文标题 / 引言）、Noto Serif SC（中文标题 / 长文）、Inter（界面与正文）、JetBrains Mono（日期 / BibTeX / 代码）。中文正文会回退到 PingFang SC / Hiragino Sans GB / Microsoft YaHei。
 - 深色模式基于 `.dark` class，语言模式基于 `html[data-lang]`，两者分别由 `src/components/Header.astro` 中的脚本写入 `localStorage`。
-- 正文颜色为 `#1E293B` / 深色 `#E2E8F0`，强调色仅使用学术深海蓝 `#2563EB`；奖项使用琥珀色文字。
+- 区块分隔线为 0.5px；英文小标使用 `font-variant-caps: small-caps`，不使用胶囊标签或彩色底块。
 
 ---
 
@@ -163,7 +167,7 @@ Teaser 在桌面端显示为 180 × 112.5，移动端为整列宽度；容器统
 - 列表页：`/notes/`
 - 内容结构定义：`src/content.config.ts`
 
-当前没有预置示例笔记；`/notes/` 会显示 “Notes are coming soon”。新增一篇笔记，只需创建一个 `.md` / `.mdx` 文件：
+仓库内置一篇示例设计笔记 `src/content/notes/on-marginalia.mdx`，用于演示 Tufte 边栏旁注与生长阶段。新增一篇笔记，只需创建一个 `.md` / `.mdx` 文件：
 
 ```mdx
 ---
@@ -171,6 +175,7 @@ title: 'Your Note Title'
 description: 'One-sentence summary shown in the notes index.'
 date: 2026-10-12
 tags: ['Efficiency', 'Multimodal']
+stage: 'Budding' # Seedling | Budding | Evergreen
 ---
 
 Inline math works: $x_t = \sqrt{\bar{\alpha}_t} x_0 + \sqrt{1-\bar{\alpha}_t}\epsilon$.
@@ -182,6 +187,14 @@ $$
 
 路由与列表会自动更新。行内公式用 `$...$`，独立公式用 `$$...$$`，代码块使用普通 Markdown 围栏语法即可。KaTeX CSS 只在笔记详情页加载，不会增加首页负担。
 
+### Tufte 边栏旁注
+
+在 MDX 正文中以 `<Sidenote>...</Sidenote>` 插入旁注。组件已在笔记详情页注册，无需额外 import；桌面端会浮动到右侧 190px 的边栏，`< 1024px` 时自动回到正文并显示细线。CSS 计数器会自动生成上标编号与旁注编号。
+
+### 生长阶段
+
+每条笔记的 frontmatter 支持 `stage`：`Seedling`（空心圆）、`Budding`（半填充圆）、`Evergreen`（实心强调色圆点）。列表页与详情页会显示对应的 small-caps 标记。
+
 ---
 
 ## 打印 / 导出 PDF
@@ -189,7 +202,7 @@ $$
 在浏览器中按 `Cmd/Ctrl + P` 即可获得一份高对比度、纯白底的学术简历与论文清单：
 
 - 自动隐藏顶部导航、主题切换、语言切换、筛选控件、Teaser、操作按钮、未展开抽屉和页脚
-- 自动隐藏头像与邮箱胶囊，改为在姓名下方显示加粗的纯文本邮箱 + 城市 / 机构
+- 自动隐藏 canvas 与邮箱文字链接，改为在姓名下方显示加粗的纯文本邮箱 + 城市 / 机构
 - 打印沿用当前 `EN` / `中` 语言，只输出当前语言文案
 - **无论当前屏幕选择的是 `Selected` 还是 `All`，打印时都会输出完整论文列表**
 - 强制浅色打印，即使网页当前处于深色模式
@@ -255,7 +268,7 @@ export default defineConfig({
 .
 ├── .github/workflows/deploy.yml   # GitHub Pages 自动部署
 ├── public/
-│   ├── avatar.jpg                 # 头像 / YL 徽章
+│   ├── avatar.jpg                 # OG / Apple touch 预览（Hero 用 canvas）
 │   ├── favicon.svg                # 站点图标
 │   └── papers/                    # 论文 Teaser（16:10）
 ├── src/
@@ -264,12 +277,15 @@ export default defineConfig({
 │   │   ├── Experience.astro       # 教育与经历
 │   │   ├── Footer.astro           # 页脚（首页与 Notes 共用）
 │   │   ├── Header.astro           # 导航 + 语言/主题切换（无论文时隐藏 Publications）
-│   │   ├── Hero.astro             # 简介、头像、邮箱胶囊与复制
+│   │   ├── Hero.astro             # 简介、邮箱文字链接与复制
 │   │   ├── Icon.astro             # 内联 SVG 图标
+│   │   ├── ManifoldCanvas.astro   # 原生 canvas Bloch sphere / 流形线框
 │   │   ├── NewsList.astro         # 学术动态
-│   │   └── PubCard.astro          # 论文卡片 + Abstract/BibTeX 抽屉
+│   │   ├── PubCard.astro          # 论文卡片 + Abstract/BibTeX 抽屉
+│   │   └── Sidenote.astro         # Tufte 边栏旁注
 │   ├── content/
-│   │   └── notes/                 # 【内容】MDX 技术笔记（当前为空）
+│   │   └── notes/
+│   │       └── on-marginalia.mdx  # 数字花园示例笔记
 │   ├── content.config.ts          # Notes collection schema
 │   ├── data/
 │   │   ├── i18n.ts                # 导航 / 区块 / Notes 界面文案
@@ -315,8 +331,8 @@ export default defineConfig({
 **Publications 区块和导航入口不见了？**
 这是预期行为。`src/data/publications.ts` 当前为空数组，首页与 Header 会自动隐藏 Publications；加入第一篇论文后自动恢复，无需改页面代码。
 
-**Notes 页面打开是空的？**
-当前没有笔记文件，页面会显示 “Notes are coming soon”。在 `src/content/notes/` 下添加 `.md` / `.mdx` 并重新运行 `npm run build` 即可。
+**如何新增、删除或修改笔记？**
+在 `src/content/notes/` 下创建或删除 `.md` / `.mdx` 文件，重新运行 `npm run build` 即可。示例笔记为 `on-marginalia.mdx`，可直接删除或替换。
 
 **如何新增或修改双语内容？**
 导航与界面标签改 `src/data/i18n.ts`；个人资料、经历、动态改对应的 `{ en, zh }` 字段。默认语言由 `Layout.astro` 的 `data-lang="en"` 决定，用户选择会写入 `localStorage` 的 `lang`。

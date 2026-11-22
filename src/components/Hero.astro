@@ -4,40 +4,39 @@ import { ui } from '../data/i18n';
 import { isExternal, withBase } from '../utils/base';
 import Icon from './Icon.astro';
 import Bilingual from './Bilingual.astro';
+import ManifoldCanvas from './ManifoldCanvas.astro';
 ---
 
-<section id="about" aria-labelledby="about-title" class="scroll-mt-24 pt-10 sm:pt-14">
+<section id="about" aria-labelledby="about-title" class="scroll-mt-24 pt-12 sm:pt-16">
   <div
-    class="grid grid-cols-1 gap-7 sm:grid-cols-[minmax(0,1fr)_176px] sm:items-start sm:gap-12"
+    class="grid grid-cols-1 gap-8 sm:grid-cols-[minmax(0,1fr)_190px] sm:items-start sm:gap-12"
   >
     <div class="order-2 sm:order-1">
       <h1
         id="about-title"
-        class="font-serif text-[34px] font-semibold leading-[1.08] tracking-tight text-slate-900 sm:text-[44px] dark:text-slate-50"
+        class="font-serif text-[36px] font-medium leading-[1.05] tracking-[-0.02em] text-ink sm:text-[48px]"
       >
         <span class="lang-en" lang="en">{profile.name}</span><span class="lang-zh" lang="zh-CN">{profile.nameZh}</span>
         <span
-          class="ml-1 align-baseline font-sans text-[17px] font-normal tracking-normal text-slate-400 dark:text-slate-500 lang-en"
+          class="ml-2 align-baseline font-sans text-[10px] font-normal uppercase tracking-[0.14em] text-muted lang-en"
           lang="en"
         >{profile.nameZh}</span>
         <span
-          class="ml-1 align-baseline font-sans text-[17px] font-normal tracking-normal text-slate-400 dark:text-slate-500 lang-zh"
+          class="ml-2 align-baseline font-sans text-[10px] font-normal uppercase tracking-[0.14em] text-muted lang-zh"
           lang="zh-CN"
         >{profile.name}</span>
       </h1>
 
-      <p class="mt-3 text-[14.5px] font-medium text-slate-700 dark:text-slate-300">
+      <p class="hero-subtitle mt-3 font-serif text-[15px] italic text-muted">
         <Bilingual value={profile.subtitle} />
       </p>
 
-      <p class="print-only mt-2 font-mono text-[9.5px] text-slate-600">
+      <p class="print-only mt-2 font-mono text-[9.5px] text-muted">
         <span class="lang-en" lang="en"><span class="font-semibold">{profile.email}</span> · {profile.location.en} · {profile.affiliation.en}</span>
         <span class="lang-zh" lang="zh-CN"><span class="font-semibold">{profile.email}</span> · {profile.location.zh} · {profile.affiliation.zh}</span>
       </p>
 
-      <div
-        class="mt-4 space-y-3 text-[15px] leading-[1.75] text-slate-800 dark:text-slate-200"
-      >
+      <div class="mt-5 space-y-4 font-serif text-[16.5px] leading-[1.8] text-ink">
         {
           profile.bio.map((paragraph) => (
             <p>
@@ -48,51 +47,50 @@ import Bilingual from './Bilingual.astro';
         }
       </div>
 
-      <div class="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1.5">
-        <span
-          class="text-[10.5px] font-semibold uppercase tracking-[0.13em] text-slate-400 dark:text-slate-500"
-        >
+      <div class="mt-6 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+        <span class="eyebrow mr-1">
           <Bilingual value={ui.sections.research} />
         </span>
         {
-          profile.researchInterests.map((interest) => (
-            <span class="rounded-full border border-slate-200/90 px-2.5 py-0.5 text-[11.5px] font-medium text-slate-700 dark:border-slate-800 dark:text-slate-300">
-              <Bilingual value={interest} />
-            </span>
+          profile.researchInterests.map((interest, index) => (
+            <>
+              {index > 0 && (
+                <span class="font-serif text-[13px] not-italic text-muted" aria-hidden="true">
+                  /
+                </span>
+              )}
+              <span class="research-term font-serif text-[14px] italic text-ink">
+                <Bilingual value={interest} />
+              </span>
+            </>
           ))
         }
       </div>
 
-      <div class="hero-links mt-6 flex flex-wrap items-center gap-2">
+      <div class="hero-links mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-2">
         {
           profile.links.map((link) => {
             if (link.icon === 'mail' && link.value) {
               return (
-                <div class="relative inline-flex">
-                  <div class="inline-flex items-stretch overflow-hidden rounded-full border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.03)] dark:border-slate-800 dark:bg-white/[0.03]">
-                    <a
-                      href={link.href}
-                      class="inline-flex items-center gap-1.5 px-3 py-1.5 text-[12.5px] font-medium text-slate-700 transition-colors hover:text-blue-700 dark:text-slate-300 dark:hover:text-blue-300"
-                      aria-label={`Email / 邮箱: ${link.value}`}
-                    >
-                      <Icon name="mail" size={13} />
-                      <span class="whitespace-nowrap tabular-nums tracking-[-0.01em]">{link.value}</span>
-                    </a>
-                    <button
-                      type="button"
-                      class="inline-flex items-center justify-center border-l border-slate-200 px-2.5 text-slate-400 transition-colors hover:bg-slate-50 hover:text-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-white/[0.04] dark:hover:text-white"
-                      data-copy-email={link.value}
-                      aria-label="Copy email address / 复制邮箱地址"
-                      title="Copy email address / 复制邮箱地址"
-                    >
-                      <Icon name="copy" size={12} class="copy-icon" />
-                      <Icon
-                        name="check"
-                        size={12}
-                        class="copy-check hidden text-emerald-600 dark:text-emerald-400"
-                      />
-                    </button>
-                  </div>
+                <div class="relative inline-flex items-baseline gap-2">
+                  <a
+                    href={link.href}
+                    class="editorial-link inline-flex items-center gap-1.5 font-mono text-[12px] tabular-nums tracking-[-0.01em]"
+                    aria-label={`Email / 邮箱: ${link.value}`}
+                  >
+                    <Icon name="mail" size={13} class="text-muted" />
+                    <span>{link.value}</span>
+                  </a>
+                  <button
+                    type="button"
+                    class="copy-button inline-flex h-5 w-5 items-center justify-center"
+                    data-copy-email={link.value}
+                    aria-label="Copy email address / 复制邮箱地址"
+                    title="Copy email address / 复制邮箱地址"
+                  >
+                    <Icon name="copy" size={12} class="copy-icon" />
+                    <Icon name="check" size={12} class="copy-check hidden" />
+                  </button>
                   <span
                     class="contact-copy-feedback"
                     data-copy-feedback
@@ -114,7 +112,7 @@ import Bilingual from './Bilingual.astro';
                 href={externalLink ? link.href : withBase(link.href)}
                 target={externalLink ? '_blank' : undefined}
                 rel={externalLink ? 'noopener noreferrer' : undefined}
-                class="link-pill px-3 py-1.5 text-[12.5px]"
+                class="editorial-link inline-flex items-center gap-1.5 text-[12.5px] font-medium"
               >
                 <Icon name={link.icon} size={13} />
                 <Bilingual value={link.label} />
@@ -125,24 +123,7 @@ import Bilingual from './Bilingual.astro';
       </div>
     </div>
 
-    <div class="hero-avatar order-1 sm:order-2 sm:justify-self-end">
-      <div class="relative inline-block">
-        <div
-          class="absolute -inset-1.5 rounded-[22px] bg-gradient-to-br from-blue-100 via-transparent to-transparent opacity-80 dark:from-blue-500/10 dark:via-transparent dark:to-transparent"
-          aria-hidden="true"
-        >
-        </div>
-        <img
-          src={withBase(profile.avatar)}
-          alt={`Portrait of ${profile.name}`}
-          width="352"
-          height="352"
-          loading="eager"
-          decoding="async"
-          class="relative h-[116px] w-[116px] rounded-2xl border border-slate-200 object-cover shadow-sm sm:h-[176px] sm:w-[176px] dark:border-slate-800 dark:shadow-none"
-        />
-      </div>
-    </div>
+    <ManifoldCanvas />
   </div>
 </section>
 

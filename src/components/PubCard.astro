@@ -45,7 +45,7 @@ const bibtexCodeId = `bibtex-${pub.id}`;
 >
   <button
     type="button"
-    class="pub-teaser group relative block aspect-[16/10] w-full overflow-hidden rounded-md border border-slate-200/80 bg-slate-50 text-left shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-white/[0.03] dark:shadow-none"
+    class="pub-teaser group relative block aspect-[16/10] w-full overflow-hidden border-[0.5px] border-hairline bg-paper-soft text-left"
     data-lightbox
     data-src={withBase(pub.teaser)}
     data-caption={pub.title}
@@ -75,7 +75,7 @@ const bibtexCodeId = `bibtex-${pub.id}`;
       )
     }
     <span
-      class="absolute right-2 top-2 inline-flex h-6 w-6 items-center justify-center rounded-md bg-slate-950/55 text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
+      class="absolute right-2 top-2 inline-flex h-6 w-6 items-center justify-center bg-[#1c1b18]/55 text-[#faf9f5] opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
       aria-hidden="true"
     >
       <Icon name="expand" size={12} />
@@ -84,7 +84,7 @@ const bibtexCodeId = `bibtex-${pub.id}`;
 
   <div class="min-w-0">
     <h3
-      class="font-serif text-[17px] font-semibold leading-snug tracking-tight text-slate-900 dark:text-slate-100"
+      class="font-serif text-[18px] font-medium leading-snug tracking-[-0.012em] text-ink"
     >
       {
         pub.links?.pdf ? (
@@ -92,7 +92,7 @@ const bibtexCodeId = `bibtex-${pub.id}`;
             href={pub.links.pdf}
             target={isExternal(pub.links.pdf) ? '_blank' : undefined}
             rel={isExternal(pub.links.pdf) ? 'noopener noreferrer' : undefined}
-            class="transition-colors hover:text-blue-700 dark:hover:text-blue-300"
+            class="transition-colors hover:text-accent"
           >
             {pub.title}
           </a>
@@ -102,7 +102,7 @@ const bibtexCodeId = `bibtex-${pub.id}`;
       }
     </h3>
 
-    <p class="mt-1.5 text-[13px] leading-6 text-slate-500 dark:text-slate-400">
+    <p class="mt-1.5 text-[12.5px] leading-6 text-muted">
       {
         pub.authors.map((author, index) => {
           const match = author.match(/^(.*?)([*†]+)$/);
@@ -112,11 +112,11 @@ const bibtexCodeId = `bibtex-${pub.id}`;
           return (
             <>
               {index > 0 && ', '}
-              <span class={isSelf ? 'font-semibold text-slate-900 dark:text-slate-100' : ''}>
+              <span class={isSelf ? 'font-medium text-ink' : ''}>
                 {name}
               </span>
               {marks && (
-                <sup class="ml-px font-mono text-[9px] font-medium text-blue-600 dark:text-blue-400">
+                <sup class="ml-px font-mono text-[9px] font-medium text-accent">
                   {marks}
                 </sup>
               )}
@@ -128,28 +128,28 @@ const bibtexCodeId = `bibtex-${pub.id}`;
 
     {
       authorNotes.length > 0 && (
-        <p class="mt-1 text-[10px] text-slate-400 dark:text-slate-500">
+        <p class="mt-1 text-[10px] text-muted">
           {authorNotes.join(' · ')}
         </p>
       )
     }
 
     <div class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-      <span class="text-[11.5px] font-semibold tracking-wide text-blue-700 dark:text-blue-300">
+      <span class="small-caps text-[11px] font-medium text-ink">
         {pub.venue}
       </span>
       {
         pub.highlight && (
-          <span class="text-[11.5px] font-semibold text-amber-700 dark:text-amber-400">
+          <span class="small-caps text-[11px] font-medium text-accent">
             ({pub.highlight})
           </span>
         )
       }
     </div>
 
-    <p class="mt-2 text-[13.5px] leading-6 text-slate-700 dark:text-slate-300">
-      <span class="font-semibold text-slate-900 dark:text-slate-100">TL;DR</span>
-      <span class="mx-1.5 text-slate-300 dark:text-slate-600">·</span>
+    <p class="mt-2 text-[13.5px] leading-6 text-muted">
+      <span class="small-caps font-medium text-ink">TL;DR</span>
+      <span class="mx-1.5 text-hairline">·</span>
       {pub.tldr}
     </p>
 
@@ -202,10 +202,10 @@ const bibtexCodeId = `bibtex-${pub.id}`;
     >
       <div class="min-h-0 overflow-hidden">
         <div
-          class="mt-3 rounded-md border border-slate-200/80 bg-slate-50/70 p-4 text-[13px] leading-6 text-slate-700 dark:border-slate-800 dark:bg-white/[0.02] dark:text-slate-300"
+          class="mt-3 border-[0.5px] border-hairline bg-paper-soft p-4 text-[13px] leading-6 text-muted"
         >
           <p>
-            <span class="font-semibold text-slate-900 dark:text-slate-100">Abstract.</span>{' '}
+            <span class="font-medium text-ink">Abstract.</span>{' '}
             {pub.abstract}
           </p>
         </div>
@@ -222,19 +222,19 @@ const bibtexCodeId = `bibtex-${pub.id}`;
     >
       <div class="min-h-0 overflow-hidden">
         <div
-          class="mt-3 overflow-hidden rounded-md border border-slate-200/80 bg-slate-50 dark:border-slate-800 dark:bg-white/[0.02]"
+          class="mt-3 overflow-hidden border-[0.5px] border-hairline bg-paper-soft"
         >
           <div
-            class="flex items-center justify-between border-b border-slate-200/80 px-3 py-1.5 dark:border-slate-800"
+            class="flex items-center justify-between border-b-[0.5px] border-hairline px-3 py-1.5"
           >
             <span
-              class="font-mono text-[10px] uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500"
+              class="eyebrow font-mono"
             >
               BibTeX
             </span>
             <button
               type="button"
-              class="copy-button inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[10.5px] font-medium text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+              class="copy-button inline-flex items-center gap-1.5 px-1 py-1 text-[10px] font-medium"
               data-copy-bibtex
               data-copy-target={bibtexCodeId}
             >
@@ -244,7 +244,7 @@ const bibtexCodeId = `bibtex-${pub.id}`;
             </button>
           </div>
           <pre
-            class="m-0 max-h-[45vh] overflow-auto whitespace-pre-wrap break-words p-3.5 font-mono text-[11px] leading-[1.65] text-slate-700 dark:text-slate-300"
+            class="m-0 max-h-[45vh] overflow-auto whitespace-pre-wrap break-words p-3.5 font-mono text-[11px] leading-[1.65] text-muted"
           ><code id={bibtexCodeId}>{pub.bibtex}</code></pre>
         </div>
       </div>

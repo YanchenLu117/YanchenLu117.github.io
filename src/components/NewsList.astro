@@ -7,22 +7,18 @@ import Bilingual from './Bilingual.astro';
 <section id="news" aria-labelledby="news-title" class="scroll-mt-24">
   <div class="flex items-end justify-between gap-4">
     <h2 id="news-title" class="section-title"><Bilingual value={ui.sections.news} /></h2>
-    <span
-      class="pb-1 text-[10.5px] font-semibold uppercase tracking-[0.13em] text-slate-400 dark:text-slate-500"
-    >
-      <Bilingual value={ui.sections.recentUpdates} />
-    </span>
+    <span class="eyebrow pb-1"><Bilingual value={ui.sections.recentUpdates} /></span>
   </div>
   <div class="section-rule"></div>
 
-  <ul class="news-list mt-2.5 divide-y divide-slate-100 dark:divide-white/[0.06]">
+  <ul class="news-list mt-3">
     {
       news.map((item) => (
-        <li class="grid grid-cols-[56px_1fr] gap-3 py-2.5 sm:grid-cols-[72px_1fr] sm:gap-4">
-          <span class="pt-px font-mono text-[11px] tabular-nums tracking-tight text-slate-400 dark:text-slate-500">
+        <li class="grid grid-cols-[56px_1fr] gap-3 py-2.5 sm:grid-cols-[78px_1fr] sm:gap-4">
+          <span class="pt-0.5 font-mono text-[10.5px] tabular-nums tracking-tight text-muted">
             {item.date}
           </span>
-          <p class="text-[14px] leading-6 text-slate-600 dark:text-slate-400">
+          <p class="text-[14px] leading-6 text-muted">
             <span class="lang-en" lang="en" set:html={item.content.en} />
             <span class="lang-zh" lang="zh-CN" set:html={item.content.zh} />
           </p>

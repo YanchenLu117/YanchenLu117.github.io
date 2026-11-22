@@ -9,13 +9,13 @@ export const ui = {
     experience: { en: 'Experience', zh: '经历' },
   },
   sections: {
-    research: { en: 'RESEARCH', zh: '研究方向' },
+    research: { en: 'Research', zh: '研究方向' },
     news: { en: 'News', zh: '动态' },
-    recentUpdates: { en: 'RECENT UPDATES', zh: '近期更新' },
+    recentUpdates: { en: 'Recent updates', zh: '近期更新' },
     publications: { en: 'Publications', zh: '论文' },
     experience: { en: 'Experience', zh: '经历' },
-    education: { en: 'EDUCATION', zh: '教育背景' },
-    researchIndustry: { en: 'RESEARCH & INDUSTRY', zh: '科研经历' },
+    education: { en: 'Education', zh: '教育背景' },
+    researchIndustry: { en: 'Research & industry', zh: '科研经历' },
   },
   publications: {
     selected: { en: 'Selected', zh: '精选' },

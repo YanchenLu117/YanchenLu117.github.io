@@ -9,6 +9,7 @@ const notes = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
+    stage: z.enum(['Seedling', 'Budding', 'Evergreen']).default('Seedling'),
   }),
 });
 

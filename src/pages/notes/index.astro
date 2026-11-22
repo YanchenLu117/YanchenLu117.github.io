@@ -33,33 +33,29 @@ const noteCount = {
   <Header />
 
   <main id="main" class="container-page flex-1 pb-16">
-    <section aria-labelledby="notes-title" class="note-index pt-10 sm:pt-14">
+    <section aria-labelledby="notes-title" class="note-index pt-12 sm:pt-16">
       <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <div>
-          <p
-            class="text-[10.5px] font-semibold uppercase tracking-[0.13em] text-slate-400 dark:text-slate-500"
-          >
-            <Bilingual value={ui.notes.writing} />
-          </p>
+          <p class="eyebrow"><Bilingual value={ui.notes.writing} /></p>
           <h1
             id="notes-title"
-            class="mt-2 font-serif text-[34px] font-semibold leading-none tracking-tight text-slate-900 sm:text-[42px] dark:text-slate-50"
+            class="mt-2 font-serif text-[38px] font-medium leading-none tracking-[-0.02em] text-ink sm:text-[46px]"
           >
             <Bilingual value={ui.notes.title} />
           </h1>
         </div>
-        <p class="pb-0.5 font-mono text-[11px] text-slate-400 dark:text-slate-500">
+        <p class="pb-1 font-mono text-[10.5px] text-muted">
           <Bilingual value={noteCount} />
         </p>
       </div>
 
       <div class="section-rule"></div>
 
-      <p class="mt-5 max-w-[620px] text-[14px] leading-6 text-slate-600 dark:text-slate-400">
+      <p class="mt-5 max-w-[620px] font-serif text-[15.5px] leading-7 text-muted">
         <Bilingual value={ui.notes.intro} />
       </p>
 
-      <ul class="mt-6 divide-y divide-slate-100 dark:divide-slate-800">
+      <ul class="note-list mt-7">
         {
           notes.map((note) => {
             const slug = noteSlug(note.id);
@@ -67,35 +63,30 @@ const noteCount = {
               <li>
                 <a
                   href={withBase(`/notes/${slug}/`)}
-                  class="group grid gap-2 py-6 sm:grid-cols-[116px_minmax(0,1fr)] sm:gap-8"
+                  class="group grid gap-2 py-6 sm:grid-cols-[112px_minmax(0,1fr)] sm:gap-8"
                 >
                   <time
                     datetime={note.data.date.toISOString()}
-                    class="pt-1 font-mono text-[11px] tabular-nums text-slate-400 dark:text-slate-500"
+                    class="pt-1 font-mono text-[10.5px] tabular-nums text-muted"
                   >
                     <span class="lang-en" lang="en">{formatDate(note.data.date, 'en-US')}</span>
                     <span class="lang-zh" lang="zh-CN">{formatDate(note.data.date, 'zh-CN')}</span>
                   </time>
                   <div>
-                    <h2
-                      class="font-serif text-[21px] font-semibold leading-snug tracking-tight text-slate-900 transition-colors group-hover:text-blue-700 dark:text-slate-100 dark:group-hover:text-blue-300"
-                    >
+                    <h2 class="font-serif text-[23px] font-medium leading-snug tracking-[-0.01em] text-ink transition-colors group-hover:text-accent">
                       {note.data.title}
                     </h2>
-                    <p class="mt-1.5 text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    <p class="mt-1.5 text-[13.5px] leading-6 text-muted">
                       {note.data.description}
                     </p>
-                    {
-                      note.data.tags.length > 0 && (
-                        <div class="mt-2.5 flex flex-wrap gap-x-3 gap-y-1">
-                          {note.data.tags.map((tag) => (
-                            <span class="text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )
-                    }
+                    <div class="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                      {note.data.tags.map((tag) => (
+                        <span class="eyebrow">{tag}</span>
+                      ))}
+                      <span class="stage-marker" data-stage={note.data.stage}>
+                        {note.data.stage}
+                      </span>
+                    </div>
                   </div>
                 </a>
               </li>
@@ -106,7 +97,7 @@ const noteCount = {
 
       {
         notes.length === 0 && (
-          <p class="mt-8 text-[13px] text-slate-500 dark:text-slate-400">
+          <p class="mt-8 border-t border-hairline pt-5 font-serif text-[15px] italic text-muted">
             <Bilingual value={ui.notes.comingSoon} />
           </p>
         )
