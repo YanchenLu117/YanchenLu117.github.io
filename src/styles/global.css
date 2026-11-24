@@ -364,8 +364,7 @@
   }
 
   html[data-lang="zh"] .hero-subtitle,
-  html[data-lang="zh"] .research-term,
-  html[data-lang="zh"] .figure-caption {
+  html[data-lang="zh"] .research-term {
     font-style: normal !important;
   }
 
@@ -632,7 +631,6 @@ pre::-webkit-scrollbar-thumb {
   .site-header,
   .site-footer,
   .no-print,
-  .hero-avatar,
   .hero-links,
   .pub-teaser,
   .pub-actions,
@@ -675,6 +673,7 @@ pre::-webkit-scrollbar-thumb {
 
   #about > div {
     display: block !important;
+    max-width: none !important;
   }
 
   h1 {
@@ -700,6 +699,35 @@ pre::-webkit-scrollbar-thumb {
 
   .news-list li + li {
     border-top: 0.5pt solid #e5e7eb !important;
+  }
+
+  #news {
+    break-inside: avoid;
+  }
+
+  #agenda {
+    break-inside: avoid;
+  }
+
+  #agenda .agenda-core {
+    max-width: none !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+
+  #agenda .agenda-grid {
+    margin-top: 8pt !important;
+    gap: 10pt 18pt !important;
+  }
+
+  #agenda .agenda-item {
+    padding-top: 5pt !important;
+    break-inside: avoid;
+  }
+
+  #agenda .agenda-item p {
+    font-size: 9pt !important;
+    line-height: 1.45 !important;
   }
 
   .pub-item {

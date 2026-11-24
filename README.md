@@ -4,7 +4,8 @@
 
 - 单栏居中版式（最大宽度 880px），Newsreader + Noto Serif SC + Inter + JetBrains Mono
 - 纸墨质感配色：象牙纸、墨色正文、牛津深红强调；深色模式为暖调黑曜石
-- Hero 右侧为原生 `<canvas>` 绘制的旋转 Bloch sphere / 流形线框，无第三方图形库
+- Hero 为纯文本单栏排印（阅读宽度 720px），不使用头像或装饰性图形
+- Research Agenda 双层研究主线：核心问题 + 核心能力层 / 高价值验证场景，桌面端双栏、移动端堆叠
 - 浅色 / 深色模式，跟随系统并记忆手动选择
 - 中英双语切换（EN / 中），无刷新、持久化，与暗黑模式状态相互独立
 - 联系方式直接展示邮箱文字链接，右侧一键复制，并显示 `Copied` / `已复制`
@@ -18,7 +19,7 @@
 - 打印样式：`Cmd/Ctrl + P` 输出干净的纯白学术简历与完整论文清单
 - GitHub Actions 自动构建并部署到 GitHub Pages
 
-> ℹ️ 论文列表当前为空（ICLR 2027 / WWW 2027 双盲审稿期），首页与导航中的 Publications 会自动隐藏；论文录用或挂出 arXiv 后，往 `publications.ts` 加入对象即可恢复。`public/avatar.jpg` 仅用于社交预览 / Apple touch icon，首页右侧已改为 canvas 线框徽记。
+> ℹ️ 论文列表当前为空（ICLR 2027 / WWW 2027 双盲审稿期），首页与导航中的 Publications 会自动隐藏；论文录用或挂出 arXiv 后，往 `publications.ts` 加入对象即可恢复。`public/avatar.jpg` 仅用于社交预览 / Apple touch icon，首页不显示头像。
 
 ---
 
@@ -51,6 +52,7 @@ npm run preview   # 本地预览构建结果
 
 - `src/data/types.ts`：`LocalizedText = { en, zh }`
 - `src/data/profile.ts`：身份、简介、研究方向、经历、联系方式
+- `src/data/agenda.ts`：Research Agenda 的核心问题与双层研究结构
 - `src/data/news.ts`：学术动态
 - `src/data/i18n.ts`：导航、区块标题、Notes 与 Publications 界面标签
 - `src/components/Bilingual.astro`：简单文案的双语渲染
@@ -85,7 +87,7 @@ links: [
 | `affiliation` / `affiliationUrl` | 学校或机构（双语）及主页链接；URL 留空时机构以纯文本显示 |
 | `subtitle` | Hero 区身份副标题，双语 |
 | `email` / `location` | 邮箱、所在城市（`location` 为双语） |
-| `avatar` | 社交预览 / Apple touch 图标路径；Hero 右侧使用 canvas，不显示此图片 |
+| `avatar` | 社交预览 / Apple touch 图标路径；首页不显示此图片 |
 | `bio` | 简介段落数组，每段为 `{ en, zh }`，支持简单内联 HTML（链接请使用 `class="bio-link"`） |
 | `researchInterests` | 研究方向标签，每项为 `{ en, zh }` |
 | `links` | 社交链接，`label` 为双语，`icon` 可选 `mail` / `scholar` / `github` / `twitter` / `cv`；`value` 用于显式展示邮箱等文本 |
@@ -105,7 +107,24 @@ links: [
 }
 ```
 
-### 3. 论文 — `src/data/publications.ts`
+### 3. 研究主线 — `src/data/agenda.ts`
+
+`coreQuestion` 与 `items` 均为双语对象。`items` 按 `number` / `title` / `detail` 渲染为桌面双栏、移动端堆叠的两层结构；`detail` 支持简单内联 HTML（如 `<strong>`）：
+
+```ts
+export const researchAgenda = {
+  coreQuestion: { en: '...', zh: '...' },
+  items: [
+    {
+      number: '01',
+      title: { en: 'Capability Layer', zh: '核心能力层' },
+      detail: { en: '...', zh: '...' },
+    },
+  ],
+};
+```
+
+### 4. 论文 — `src/data/publications.ts`
 
 每篇论文是一个对象，追加即可，无需修改页面代码。当前 `publications` 为空数组，因此首页不会渲染 Publications 区块，顶部导航也会自动省略该入口；加入第一篇文章后会自动恢复：
 
@@ -136,19 +155,19 @@ links: [
 - `highlight` 是纯文字强调，不再使用奖杯图标或彩色底块。
 - BibTeX 使用模板字符串；如果内容里出现反引号，请先转义。
 
-### 4. 图片与 Favicon
+### 5. 图片与 Favicon
 
 直接替换 `public/` 下的同名文件即可：
 
 | 文件 | 建议规格 |
 | --- | --- |
-| `public/avatar.jpg` | 400 × 400；用于 OpenGraph / Apple touch 预览。Hero 右侧为 canvas 线框徽记 |
+| `public/avatar.jpg` | 400 × 400；用于 OpenGraph / Apple touch 预览。首页不显示头像 |
 | `public/papers/*.svg` | 固定 16:10，推荐 720 × 450；也支持 `.jpg` / `.png`，改一下数据里的路径即可 |
 | `public/favicon.svg` | 站点图标，可替换为自己的 monogram |
 
 Teaser 在桌面端显示为 180 × 112.5，移动端为整列宽度；容器统一使用 `border-hairline` 0.5px 细边框，不使用圆角与重阴影。建议同时提供静态图与悬停图；没有 `teaserHover` 时悬停不会切换。
 
-### 5. 配色与字体
+### 6. 配色与字体
 
 - 颜色、字体和通用样式集中在 `src/styles/global.css` 的 CSS 变量、`@theme inline` 与 `@layer components` 中。
 - 浅色模式：纸色 `#FAF9F5`、次级底色 `#F2F0E8`、墨色 `#1C1B18`、次要文字 `#5C5A52`、强调色 `#8B2635`。
@@ -202,7 +221,7 @@ $$
 在浏览器中按 `Cmd/Ctrl + P` 即可获得一份高对比度、纯白底的学术简历与论文清单：
 
 - 自动隐藏顶部导航、主题切换、语言切换、筛选控件、Teaser、操作按钮、未展开抽屉和页脚
-- 自动隐藏 canvas 与邮箱文字链接，改为在姓名下方显示加粗的纯文本邮箱 + 城市 / 机构
+- 自动隐藏邮箱文字链接，改为在姓名下方显示加粗的纯文本邮箱 + 城市 / 机构
 - 打印沿用当前 `EN` / `中` 语言，只输出当前语言文案
 - **无论当前屏幕选择的是 `Selected` 还是 `All`，打印时都会输出完整论文列表**
 - 强制浅色打印，即使网页当前处于深色模式
@@ -268,7 +287,7 @@ export default defineConfig({
 .
 ├── .github/workflows/deploy.yml   # GitHub Pages 自动部署
 ├── public/
-│   ├── avatar.jpg                 # OG / Apple touch 预览（Hero 用 canvas）
+│   ├── avatar.jpg                 # OG / Apple touch 预览（首页不显示）
 │   ├── favicon.svg                # 站点图标
 │   └── papers/                    # 论文 Teaser（16:10）
 ├── src/
@@ -279,15 +298,16 @@ export default defineConfig({
 │   │   ├── Header.astro           # 导航 + 语言/主题切换（无论文时隐藏 Publications）
 │   │   ├── Hero.astro             # 简介、邮箱文字链接与复制
 │   │   ├── Icon.astro             # 内联 SVG 图标
-│   │   ├── ManifoldCanvas.astro   # 原生 canvas Bloch sphere / 流形线框
 │   │   ├── NewsList.astro         # 学术动态
 │   │   ├── PubCard.astro          # 论文卡片 + Abstract/BibTeX 抽屉
+│   │   ├── ResearchAgenda.astro   # 研究主线：核心问题 + 双层结构
 │   │   └── Sidenote.astro         # Tufte 边栏旁注
 │   ├── content/
 │   │   └── notes/
 │   │       └── on-marginalia.mdx  # 数字花园示例笔记
 │   ├── content.config.ts          # Notes collection schema
 │   ├── data/
+│   │   ├── agenda.ts              # 【内容】研究主线：核心问题与双层结构
 │   │   ├── i18n.ts                # 导航 / 区块 / Notes 界面文案
 │   │   ├── types.ts               # LocalizedText 类型
 │   │   ├── profile.ts             # 【内容】个人资料

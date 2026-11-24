@@ -4,126 +4,119 @@ import { ui } from '../data/i18n';
 import { isExternal, withBase } from '../utils/base';
 import Icon from './Icon.astro';
 import Bilingual from './Bilingual.astro';
-import ManifoldCanvas from './ManifoldCanvas.astro';
 ---
 
 <section id="about" aria-labelledby="about-title" class="scroll-mt-24 pt-12 sm:pt-16">
-  <div
-    class="grid grid-cols-1 gap-8 sm:grid-cols-[minmax(0,1fr)_190px] sm:items-start sm:gap-12"
-  >
-    <div class="order-2 sm:order-1">
-      <h1
-        id="about-title"
-        class="font-serif text-[36px] font-medium leading-[1.05] tracking-[-0.02em] text-ink sm:text-[48px]"
-      >
-        <span class="lang-en" lang="en">{profile.name}</span><span class="lang-zh" lang="zh-CN">{profile.nameZh}</span>
-        <span
-          class="ml-2 align-baseline font-sans text-[10px] font-normal uppercase tracking-[0.14em] text-muted lang-en"
-          lang="en"
-        >{profile.nameZh}</span>
-        <span
-          class="ml-2 align-baseline font-sans text-[10px] font-normal uppercase tracking-[0.14em] text-muted lang-zh"
-          lang="zh-CN"
-        >{profile.name}</span>
-      </h1>
+  <div class="max-w-[720px]">
+    <h1
+      id="about-title"
+      class="font-serif text-[36px] font-medium leading-[1.05] tracking-[-0.02em] text-ink sm:text-[48px]"
+    >
+      <span class="lang-en" lang="en">{profile.name}</span><span class="lang-zh" lang="zh-CN">{profile.nameZh}</span>
+      <span
+        class="ml-2 align-baseline font-sans text-[10px] font-normal uppercase tracking-[0.14em] text-muted lang-en"
+        lang="en"
+      >{profile.nameZh}</span>
+      <span
+        class="ml-2 align-baseline font-sans text-[10px] font-normal uppercase tracking-[0.14em] text-muted lang-zh"
+        lang="zh-CN"
+      >{profile.name}</span>
+    </h1>
 
-      <p class="hero-subtitle mt-3 font-serif text-[15px] italic text-muted">
-        <Bilingual value={profile.subtitle} />
-      </p>
+    <p class="hero-subtitle mt-3 font-serif text-[15px] italic text-muted">
+      <Bilingual value={profile.subtitle} />
+    </p>
 
-      <p class="print-only mt-2 font-mono text-[9.5px] text-muted">
-        <span class="lang-en" lang="en"><span class="font-semibold">{profile.email}</span> · {profile.location.en} · {profile.affiliation.en}</span>
-        <span class="lang-zh" lang="zh-CN"><span class="font-semibold">{profile.email}</span> · {profile.location.zh} · {profile.affiliation.zh}</span>
-      </p>
+    <p class="print-only mt-2 font-mono text-[9.5px] text-muted">
+      <span class="lang-en" lang="en"><span class="font-semibold">{profile.email}</span> · {profile.location.en} · {profile.affiliation.en}</span>
+      <span class="lang-zh" lang="zh-CN"><span class="font-semibold">{profile.email}</span> · {profile.location.zh} · {profile.affiliation.zh}</span>
+    </p>
 
-      <div class="mt-5 space-y-4 font-serif text-[16.5px] leading-[1.8] text-ink">
-        {
-          profile.bio.map((paragraph) => (
-            <p>
-              <span class="lang-en" lang="en" set:html={paragraph.en} />
-              <span class="lang-zh" lang="zh-CN" set:html={paragraph.zh} />
-            </p>
-          ))
-        }
-      </div>
-
-      <div class="mt-6 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-        <span class="eyebrow mr-1">
-          <Bilingual value={ui.sections.research} />
-        </span>
-        {
-          profile.researchInterests.map((interest, index) => (
-            <>
-              {index > 0 && (
-                <span class="font-serif text-[13px] not-italic text-muted" aria-hidden="true">
-                  /
-                </span>
-              )}
-              <span class="research-term font-serif text-[14px] italic text-ink">
-                <Bilingual value={interest} />
-              </span>
-            </>
-          ))
-        }
-      </div>
-
-      <div class="hero-links mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-2">
-        {
-          profile.links.map((link) => {
-            if (link.icon === 'mail' && link.value) {
-              return (
-                <div class="relative inline-flex items-baseline gap-2">
-                  <a
-                    href={link.href}
-                    class="editorial-link inline-flex items-center gap-1.5 font-mono text-[12px] tabular-nums tracking-[-0.01em]"
-                    aria-label={`Email / 邮箱: ${link.value}`}
-                  >
-                    <Icon name="mail" size={13} class="text-muted" />
-                    <span>{link.value}</span>
-                  </a>
-                  <button
-                    type="button"
-                    class="copy-button inline-flex h-5 w-5 items-center justify-center"
-                    data-copy-email={link.value}
-                    aria-label="Copy email address / 复制邮箱地址"
-                    title="Copy email address / 复制邮箱地址"
-                  >
-                    <Icon name="copy" size={12} class="copy-icon" />
-                    <Icon name="check" size={12} class="copy-check hidden" />
-                  </button>
-                  <span
-                    class="contact-copy-feedback"
-                    data-copy-feedback
-                    data-visible="false"
-                    role="status"
-                    aria-live="polite"
-                    aria-atomic="true"
-                  >
-                    <span class="lang-en" lang="en">Copied</span>
-                    <span class="lang-zh" lang="zh-CN">已复制</span>
-                  </span>
-                </div>
-              );
-            }
-
-            const externalLink = isExternal(link.href);
-            return (
-              <a
-                href={externalLink ? link.href : withBase(link.href)}
-                target={externalLink ? '_blank' : undefined}
-                rel={externalLink ? 'noopener noreferrer' : undefined}
-                class="editorial-link inline-flex items-center gap-1.5 text-[12.5px] font-medium"
-              >
-                <Icon name={link.icon} size={13} />
-                <Bilingual value={link.label} />
-              </a>
-            );
-          })
-        }
-      </div>
+    <div class="mt-5 space-y-4 font-serif text-[16.5px] leading-[1.8] text-ink">
+      {
+        profile.bio.map((paragraph) => (
+          <p>
+            <span class="lang-en" lang="en" set:html={paragraph.en} />
+            <span class="lang-zh" lang="zh-CN" set:html={paragraph.zh} />
+          </p>
+        ))
+      }
     </div>
 
-    <ManifoldCanvas />
+    <div class="mt-6 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+      <span class="eyebrow mr-1">
+        <Bilingual value={ui.sections.research} />
+      </span>
+      {
+        profile.researchInterests.map((interest, index) => (
+          <>
+            {index > 0 && (
+              <span class="font-serif text-[13px] not-italic text-muted" aria-hidden="true">
+                /
+              </span>
+            )}
+            <span class="research-term font-serif text-[14px] italic text-ink">
+              <Bilingual value={interest} />
+            </span>
+          </>
+        ))
+      }
+    </div>
+
+    <div class="hero-links mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+      {
+        profile.links.map((link) => {
+          if (link.icon === 'mail' && link.value) {
+            return (
+              <div class="relative inline-flex items-baseline gap-2">
+                <a
+                  href={link.href}
+                  class="editorial-link inline-flex items-center gap-1.5 font-mono text-[12px] tabular-nums tracking-[-0.01em]"
+                  aria-label={`Email / 邮箱: ${link.value}`}
+                >
+                  <Icon name="mail" size={13} class="text-muted" />
+                  <span>{link.value}</span>
+                </a>
+                <button
+                  type="button"
+                  class="copy-button inline-flex h-5 w-5 items-center justify-center"
+                  data-copy-email={link.value}
+                  aria-label="Copy email address / 复制邮箱地址"
+                  title="Copy email address / 复制邮箱地址"
+                >
+                  <Icon name="copy" size={12} class="copy-icon" />
+                  <Icon name="check" size={12} class="copy-check hidden" />
+                </button>
+                <span
+                  class="contact-copy-feedback"
+                  data-copy-feedback
+                  data-visible="false"
+                  role="status"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  <span class="lang-en" lang="en">Copied</span>
+                  <span class="lang-zh" lang="zh-CN">已复制</span>
+                </span>
+              </div>
+            );
+          }
+
+          const externalLink = isExternal(link.href);
+          return (
+            <a
+              href={externalLink ? link.href : withBase(link.href)}
+              target={externalLink ? '_blank' : undefined}
+              rel={externalLink ? 'noopener noreferrer' : undefined}
+              class="editorial-link inline-flex items-center gap-1.5 text-[12.5px] font-medium"
+            >
+              <Icon name={link.icon} size={13} />
+              <Bilingual value={link.label} />
+            </a>
+          );
+        })
+      }
+    </div>
   </div>
 </section>
 

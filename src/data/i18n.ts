@@ -10,12 +10,16 @@ export const ui = {
   },
   sections: {
     research: { en: 'Research', zh: '研究方向' },
+    agenda: { en: 'Research Agenda', zh: '研究主线' },
     news: { en: 'News', zh: '动态' },
     recentUpdates: { en: 'Recent updates', zh: '近期更新' },
     publications: { en: 'Publications', zh: '论文' },
     experience: { en: 'Experience', zh: '经历' },
     education: { en: 'Education', zh: '教育背景' },
     researchIndustry: { en: 'Research & industry', zh: '科研经历' },
+  },
+  agenda: {
+    coreQuestion: { en: 'Core question', zh: '核心问题' },
   },
   publications: {
     selected: { en: 'Selected', zh: '精选' },

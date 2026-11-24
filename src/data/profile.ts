@@ -53,19 +53,20 @@ export const profile: Profile = {
   avatar: '/avatar.jpg',
   bio: [
     {
-      en: 'I am an undergraduate student pursuing a joint bachelor\'s degree in Finance and Computer Science & Technology at <a class="bio-link" href="https://www.swufe.edu.cn" target="_blank" rel="noopener noreferrer">Southwestern University of Finance and Economics (SWUFE)</a> and the <a class="bio-link" href="https://www.uestc.edu.cn" target="_blank" rel="noopener noreferrer">University of Electronic Science and Technology of China (UESTC)</a>. My research interests center on generative models, representation learning in complex real-world domains, and Agentic AI—particularly autonomous AI Scientists for scientific discovery.',
-      zh: '我是<a class="bio-link" href="https://www.swufe.edu.cn" target="_blank" rel="noopener noreferrer">西南财经大学</a>与<a class="bio-link" href="https://www.uestc.edu.cn" target="_blank" rel="noopener noreferrer">电子科技大学</a>联合培养的本科生，主修金融学与计算机科学与技术双学位项目。我的研究聚焦于生成式模型、复杂真实场景下的表征学习，以及智能体（Agentic AI）方向——尤其是面向自主科学发现的 AI Scientist。',
+      en: 'I am an undergraduate student pursuing a joint bachelor\'s degree in Finance and Computer Science & Technology at <a class="bio-link" href="https://www.swufe.edu.cn" target="_blank" rel="noopener noreferrer">Southwestern University of Finance and Economics (SWUFE)</a> and the <a class="bio-link" href="https://www.uestc.edu.cn" target="_blank" rel="noopener noreferrer">University of Electronic Science and Technology of China (UESTC)</a>. My primary research identity centers on <strong class="font-semibold">Autonomous Intelligence</strong> and <strong class="font-semibold">Foundation Models</strong>—investigating how to build intelligent systems that learn, reason, plan, act, and continually self-improve through environmental feedback.',
+      zh: '我是<a class="bio-link" href="https://www.swufe.edu.cn" target="_blank" rel="noopener noreferrer">西南财经大学</a>与<a class="bio-link" href="https://www.uestc.edu.cn" target="_blank" rel="noopener noreferrer">电子科技大学</a>联合培养的本科生，主修金融学与计算机科学与技术双学位项目。我的核心研究主线聚焦于<strong class="font-semibold">自主智能（Autonomous Intelligence）</strong>与<strong class="font-semibold">基础模型（Foundation Models）</strong>，致力于探索如何构建能够学习、推理、规划、行动，并通过环境反馈实现持续自我演进的智能系统。',
     },
     {
-      en: 'Currently, I am a research intern at the <a class="bio-link" href="https://www.westlake.edu.cn" target="_blank" rel="noopener noreferrer">AI Research and Innovation Laboratory (CAIRI), Westlake University</a>, working with Prof. Stan Z. Li and Dr. Zelin Zang (Tsientang Institute for Advanced Study). I am always open to research collaborations and academic discussions—feel free to reach out via email.',
-      zh: '目前，我在<a class="bio-link" href="https://www.westlake.edu.cn" target="_blank" rel="noopener noreferrer">西湖大学人工智能研究与创新实验室（CAIRI）</a>担任科研实习生，师从李子青（Stan Z. Li）教授与钱塘高等研究院臧泽林（Zelin Zang）博士。我非常期待与各界同仁开展各类学术交流与科研合作，欢迎随时通过邮件与我联系。',
+      en: 'Building upon my background in representation learning and generative models, I focus on advancing model-level capabilities—including post-training, reinforcement learning, long-horizon reasoning, and world modeling—using <strong class="font-semibold">AI for Science</strong> (autonomous scientific discovery and AI Scientists) as a high-value validation domain. Currently, I am a research intern at the <a class="bio-link" href="https://www.westlake.edu.cn" target="_blank" rel="noopener noreferrer">AI Research and Innovation Laboratory (CAIRI), Westlake University</a>, working with Prof. Stan Z. Li and Dr. Zelin Zang (Tsientang Institute for Advanced Study). I welcome research collaborations and academic discussions—feel free to reach out via email.',
+      zh: '在表征学习与生成式模型的研究基础上，我致力于从智能体工作流深入至模型能力层——涵盖后训练、强化学习、长程推理与环境/世界建模等核心问题，并以 <strong class="font-semibold">AI for Science</strong>（自主科学发现与 AI Scientist）作为高价值验证场景。目前，我在<a class="bio-link" href="https://www.westlake.edu.cn" target="_blank" rel="noopener noreferrer">西湖大学人工智能研究与创新实验室（CAIRI）</a>担任科研实习生，师从李子青（Stan Z. Li）教授与钱塘高等研究院臧泽林（Zelin Zang）博士。我非常期待与学界及工业界同仁开展各类学术交流与科研合作，欢迎随时通过邮件联系。',
     },
   ],
   researchInterests: [
-    { en: 'Agentic AI', zh: 'Agentic AI' },
-    { en: 'Generative Models', zh: '生成式模型' },
-    { en: 'Representation Learning', zh: '表征学习' },
-    { en: 'AI Frontiers', zh: 'AI 前沿探索' },
+    { en: 'Autonomous Intelligence', zh: '自主智能' },
+    { en: 'Foundation Models', zh: '基础模型' },
+    { en: 'Post-Training & RL', zh: '后训练与强化学习' },
+    { en: 'Long-Horizon Reasoning', zh: '长程推理' },
+    { en: 'AI for Science', zh: 'AI for Science' },
   ],
   links: [
     {
@@ -102,8 +103,8 @@ export const profile: Profile = {
       },
       organizationUrl: 'https://www.westlake.edu.cn',
       detail: {
-        en: 'Working with Prof. Stan Z. Li and Dr. Zelin Zang on representation learning, generative models, and AI for Science.',
-        zh: '在李子青教授与臧泽林博士指导下，开展表征学习、生成式模型及 AI for Science 方向的研究。',
+        en: 'Working with Prof. Stan Z. Li and Dr. Zelin Zang on autonomous intelligence, foundation models, representation learning, and AI for Science.',
+        zh: '在李子青教授与臧泽林博士指导下，开展自主智能、基础模型、表征学习及 AI for Science 方向的研究。',
       },
       kind: 'experience',
       monogram: 'WL',

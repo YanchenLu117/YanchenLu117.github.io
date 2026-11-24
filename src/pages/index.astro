@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
+import ResearchAgenda from '../components/ResearchAgenda.astro';
 import NewsList from '../components/NewsList.astro';
 import PubCard from '../components/PubCard.astro';
 import Experience from '../components/Experience.astro';
@@ -25,6 +26,8 @@ const years = Array.from(new Set(publications.map((publication) => publication.y
     <Hero />
 
     <div class="mt-12 space-y-14 sm:mt-16 sm:space-y-16">
+      <ResearchAgenda />
+
       <NewsList />
 
       {publications.length > 0 && (

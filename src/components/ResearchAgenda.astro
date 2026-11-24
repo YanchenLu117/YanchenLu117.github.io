@@ -1,0 +1,42 @@
+---
+import { researchAgenda } from '../data/agenda';
+import { ui } from '../data/i18n';
+import Bilingual from './Bilingual.astro';
+---
+
+<section id="agenda" aria-labelledby="agenda-title" class="scroll-mt-24">
+  <h2 id="agenda-title" class="section-title">
+    <Bilingual value={ui.sections.agenda} />
+  </h2>
+  <div class="section-rule"></div>
+
+  <div class="mt-6 grid gap-2.5 sm:grid-cols-[112px_minmax(0,1fr)] sm:gap-8">
+    <p class="eyebrow pt-1.5">
+      <Bilingual value={ui.agenda.coreQuestion} />
+    </p>
+    <p
+      class="agenda-core max-w-[62ch] font-serif text-[19px] leading-[1.55] tracking-[-0.005em] text-ink sm:text-[21px]"
+    >
+      <Bilingual value={researchAgenda.coreQuestion} />
+    </p>
+  </div>
+
+  <div class="agenda-grid mt-8 grid gap-x-10 gap-y-7 sm:grid-cols-2">
+    {
+      researchAgenda.items.map((item) => (
+        <article class="agenda-item border-t border-hairline pt-4">
+          <div class="flex items-baseline gap-3">
+            <span class="font-mono text-[10px] tabular-nums text-accent">{item.number}</span>
+            <h3 class="eyebrow pt-0.5">
+              <Bilingual value={item.title} />
+            </h3>
+          </div>
+          <p class="mt-2 font-serif text-[14px] leading-[1.75] text-muted">
+            <span class="lang-en" lang="en" set:html={item.detail.en} />
+            <span class="lang-zh" lang="zh-CN" set:html={item.detail.zh} />
+          </p>
+        </article>
+      ))
+    }
+  </div>
+</section>
