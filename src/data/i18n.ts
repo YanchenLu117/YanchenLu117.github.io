@@ -19,7 +19,10 @@ export const ui = {
     researchIndustry: { en: 'Research & industry', zh: '科研经历' },
   },
   agenda: {
-    coreQuestion: { en: 'Core question', zh: '核心问题' },
+    coreFocus: { en: 'Core focus', zh: '核心聚焦' },
+  },
+  actions: {
+    printCv: { en: 'Print / PDF CV', zh: '导出 PDF 简历' },
   },
   publications: {
     selected: { en: 'Selected', zh: '精选' },

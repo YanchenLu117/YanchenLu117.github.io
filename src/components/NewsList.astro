@@ -2,11 +2,19 @@
 import { news } from '../data/news';
 import { ui } from '../data/i18n';
 import Bilingual from './Bilingual.astro';
+
+interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id = 'news', class: className = '' } = Astro.props;
+const titleId = `${id}-title`;
 ---
 
-<section id="news" aria-labelledby="news-title" class="scroll-mt-24">
+<section id={id} aria-labelledby={titleId} class={`scroll-mt-24 ${className}`}>
   <div class="flex items-end justify-between gap-4">
-    <h2 id="news-title" class="section-title"><Bilingual value={ui.sections.news} /></h2>
+    <h2 id={titleId} class="section-title"><Bilingual value={ui.sections.news} /></h2>
     <span class="eyebrow pb-1"><Bilingual value={ui.sections.recentUpdates} /></span>
   </div>
   <div class="section-rule"></div>

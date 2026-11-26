@@ -4,11 +4,12 @@
 
 - 单栏居中版式（最大宽度 880px），Newsreader + Noto Serif SC + Inter + JetBrains Mono
 - 纸墨质感配色：象牙纸、墨色正文、牛津深红强调；深色模式为暖调黑曜石
-- Hero 为纯文本单栏排印（阅读宽度 720px），不使用头像或装饰性图形
-- Research Agenda 双层研究主线：核心问题 + 核心能力层 / 高价值验证场景，桌面端双栏、移动端堆叠
+- Hero 左侧为简介与联系方式，右侧为原生 Canvas 隐空间搜索轨迹徽记（无第三方图形库）
+- Research Agenda 排印蓝图：核心命题 + 双支柱协同 + 方法论基座 + 双轨验证，桌面双栏、移动端堆叠
+- `Print / PDF CV` 一键调用浏览器打印，输出 2 页 LaTeX 风格学术简介与研究陈述
 - 浅色 / 深色模式，跟随系统并记忆手动选择
 - 中英双语切换（EN / 中），无刷新、持久化，与暗黑模式状态相互独立
-- 联系方式直接展示邮箱文字链接，右侧一键复制，并显示 `Copied` / `已复制`
+- 联系方式直接展示邮箱与电话文字链接，邮箱右侧一键复制，并显示 `Copied` / `已复制`
 - 所有内容与视图分离，日常维护只改 `src/data/` 下的数据文件
 - Publications 支持 `Selected / All`、Topic 筛选、Year 下拉过滤，以及平滑的空状态提示；列表为空时整个区块与导航入口会自动隐藏
 - Teaser 固定 16:10，悬停切换对比图，点击可放大；统一 `border-hairline` 0.5px 细边框
@@ -19,7 +20,7 @@
 - 打印样式：`Cmd/Ctrl + P` 输出干净的纯白学术简历与完整论文清单
 - GitHub Actions 自动构建并部署到 GitHub Pages
 
-> ℹ️ 论文列表当前为空（ICLR 2027 / WWW 2027 双盲审稿期），首页与导航中的 Publications 会自动隐藏；论文录用或挂出 arXiv 后，往 `publications.ts` 加入对象即可恢复。`public/avatar.jpg` 仅用于社交预览 / Apple touch icon，首页不显示头像。
+> ℹ️ 论文列表当前为空（ICLR 2027 / WWW 2027 双盲审稿期），首页与导航中的 Publications 会自动隐藏；论文录用或挂出 arXiv 后，往 `publications.ts` 加入对象即可恢复。`public/avatar.jpg` 仅用于社交预览 / Apple touch icon，首页不显示头像，Hero 右侧改为隐空间搜索轨迹 Canvas 徽记。
 
 ---
 
@@ -52,12 +53,12 @@ npm run preview   # 本地预览构建结果
 
 - `src/data/types.ts`：`LocalizedText = { en, zh }`
 - `src/data/profile.ts`：身份、简介、研究方向、经历、联系方式
-- `src/data/agenda.ts`：Research Agenda 的核心问题与双层研究结构
+- `src/data/agenda.ts`：Research Agenda 的核心命题、双支柱、方法论基座与双轨验证
 - `src/data/news.ts`：学术动态
 - `src/data/i18n.ts`：导航、区块标题、Notes 与 Publications 界面标签
 - `src/components/Bilingual.astro`：简单文案的双语渲染
 
-邮箱使用显式展示的纯文字链接（无胶囊外框）：
+邮箱与电话均使用显式展示的纯文字链接（无胶囊外框）：
 
 ```ts
 links: [
@@ -67,10 +68,16 @@ links: [
     icon: 'mail',
     value: 'yanchen_lu117@163.com', // 链接中直接显示的文本
   },
+  {
+    label: { en: 'Phone', zh: '电话' },
+    href: 'tel:+8618969363999',
+    icon: 'phone',
+    value: '+86 189 6936 3999',
+  },
 ],
 ```
 
-右侧的复制按钮会写入剪贴板，并短暂显示 `Copied` / `已复制`；失败时会回退到 `document.execCommand('copy')`。打印时邮箱会以纯文本显示在姓名下方。
+邮箱右侧的复制按钮会写入剪贴板，并短暂显示 `Copied` / `已复制`；失败时会回退到 `document.execCommand('copy')`。联系方式行最右侧的 `Print / PDF CV`（中文：`导出 PDF 简历`）会调用 `window.print()`；打印时邮箱与电话会以纯文本显示在姓名下方。
 
 > 明文邮箱便于潜在导师直接复制，但可能被基础爬虫抓取。若后续垃圾邮件明显增多，可以把 `value` 拆成前后两段，在浏览器端用简单 JS 拼接后渲染，视觉不变但可挡掉多数静态爬虫。
 
@@ -86,11 +93,11 @@ links: [
 | `role` | 当前身份，双语 `{ en, zh }` |
 | `affiliation` / `affiliationUrl` | 学校或机构（双语）及主页链接；URL 留空时机构以纯文本显示 |
 | `subtitle` | Hero 区身份副标题，双语 |
-| `email` / `location` | 邮箱、所在城市（`location` 为双语） |
-| `avatar` | 社交预览 / Apple touch 图标路径；首页不显示此图片 |
+| `email` / `phone` / `location` | 邮箱、电话、所在城市（`location` 为双语） |
+| `avatar` | 社交预览 / Apple touch 图标路径；首页不显示此图片，Hero 右侧为 Canvas 徽记 |
 | `bio` | 简介段落数组，每段为 `{ en, zh }`，支持简单内联 HTML（链接请使用 `class="bio-link"`） |
 | `researchInterests` | 研究方向标签，每项为 `{ en, zh }` |
-| `links` | 社交链接，`label` 为双语，`icon` 可选 `mail` / `scholar` / `github` / `twitter` / `cv`；`value` 用于显式展示邮箱等文本 |
+| `links` | 社交链接，`label` 为双语，`icon` 可选 `mail` / `phone` / `scholar` / `github` / `twitter` / `cv`；`value` 用于显式展示邮箱、电话等文本 |
 | `experience` | 教育与经历；`period` / `role` / `organization` / `detail` 均为双语，`kind` 为 `education` 或 `experience`，`monogram` 为左侧缩写方块 |
 
 ### 2. 学术动态 — `src/data/news.ts`
@@ -109,18 +116,31 @@ links: [
 
 ### 3. 研究主线 — `src/data/agenda.ts`
 
-`coreQuestion` 与 `items` 均为双语对象。`items` 按 `number` / `title` / `detail` 渲染为桌面双栏、移动端堆叠的两层结构；`detail` 支持简单内联 HTML（如 `<strong>`）：
+`researchAgenda` 由五部分组成：`thesis`（核心命题）、`pillars`（双支柱）、`foundation`（方法论基座）、`regimes`（封闭 / 开放问题范式）与 `validation`（双轨验证）。`statement`、`detail` 支持简单内联 HTML；在关键词外包裹 `<span class="blueprint-keyword" data-regime="closed|open">` 即可接入悬停联动：
 
 ```ts
 export const researchAgenda = {
-  coreQuestion: { en: '...', zh: '...' },
-  items: [
+  thesis: {
+    label: { en: 'ARCHITECTURE–POST-TRAINING CO-DESIGN', zh: '面向自主智能的架构与后训练协同创新' },
+    statement: { en: '...', zh: '...' },
+  },
+  pillars: [
     {
       number: '01',
-      title: { en: 'Capability Layer', zh: '核心能力层' },
-      detail: { en: '...', zh: '...' },
+      label: { en: 'Pillar I', zh: '支柱一' },
+      title: { en: 'Agentic Post-Training & Exploration Policies', zh: '后训练新范式' },
+      detail: {
+        en: '... <span class="blueprint-keyword" data-regime="open">exploration-aware policy optimization</span> ...',
+        zh: '...',
+      },
     },
   ],
+  foundation: { title: { en: '...', zh: '...' }, detail: { en: '...', zh: '...' } },
+  regimes: {
+    closed: { title: { en: '...', zh: '...' }, detail: { en: '...', zh: '...' } },
+    open: { title: { en: '...', zh: '...' }, detail: { en: '...', zh: '...' }, core: true },
+  },
+  validation: { title: { en: '...', zh: '...' }, detail: { en: '...', zh: '...' } },
 };
 ```
 
@@ -161,7 +181,7 @@ export const researchAgenda = {
 
 | 文件 | 建议规格 |
 | --- | --- |
-| `public/avatar.jpg` | 400 × 400；用于 OpenGraph / Apple touch 预览。首页不显示头像 |
+| `public/avatar.jpg` | 400 × 400；用于 OpenGraph / Apple touch 预览。首页不显示头像，Hero 右侧为 Canvas 徽记 |
 | `public/papers/*.svg` | 固定 16:10，推荐 720 × 450；也支持 `.jpg` / `.png`，改一下数据里的路径即可 |
 | `public/favicon.svg` | 站点图标，可替换为自己的 monogram |
 
@@ -218,14 +238,15 @@ $$
 
 ## 打印 / 导出 PDF
 
-在浏览器中按 `Cmd/Ctrl + P` 即可获得一份高对比度、纯白底的学术简历与论文清单：
+点击 Hero 联系方式行右侧的 `Print / PDF CV`，或在浏览器中按 `Cmd/Ctrl + P`，即可获得一份 2 页、高对比度、纯白底的学术简介与研究陈述：
 
-- 自动隐藏顶部导航、主题切换、语言切换、筛选控件、Teaser、操作按钮、未展开抽屉和页脚
-- 自动隐藏邮箱文字链接，改为在姓名下方显示加粗的纯文本邮箱 + 城市 / 机构
+- 自动隐藏顶部导航、主题切换、语言切换、筛选控件、Teaser、Canvas 徽记、操作按钮、未展开抽屉和页脚
+- 自动隐藏邮箱 / 电话文字链接，改为在姓名下方显示加粗的纯文本邮箱、电话、城市与机构
 - 打印沿用当前 `EN` / `中` 语言，只输出当前语言文案
 - **无论当前屏幕选择的是 `Selected` 还是 `All`，打印时都会输出完整论文列表**
 - 强制浅色打印，即使网页当前处于深色模式
-- 使用 A4 页边距、`break-inside: avoid` 避免论文条目被跨页截断
+- 使用 A4 页边距；Research Agenda 蓝图保持完整不跨页
+- 打印专用 News 副本放在首页简介之后，Experience 的研究经历使用紧凑双栏，确保总页数为 2 页
 - Notes 详情页同样支持干净的打印输出
 
 打印规则位于 `src/styles/global.css` 的 `@media print` 块。如果想在打印时保留 Teaser，只需从隐藏列表里移除 `.pub-teaser`。
@@ -296,18 +317,19 @@ export default defineConfig({
 │   │   ├── Experience.astro       # 教育与经历
 │   │   ├── Footer.astro           # 页脚（首页与 Notes 共用）
 │   │   ├── Header.astro           # 导航 + 语言/主题切换（无论文时隐藏 Publications）
-│   │   ├── Hero.astro             # 简介、邮箱文字链接与复制
+│   │   ├── Hero.astro             # 简介、邮箱/电话与 Print / PDF CV
 │   │   ├── Icon.astro             # 内联 SVG 图标
-│   │   ├── NewsList.astro         # 学术动态
+│   │   ├── LatentSearchCanvas.astro # 隐空间搜索轨迹 Canvas
+│   │   ├── NewsList.astro         # 学术动态（含打印专用副本）
 │   │   ├── PubCard.astro          # 论文卡片 + Abstract/BibTeX 抽屉
-│   │   ├── ResearchAgenda.astro   # 研究主线：核心问题 + 双层结构
+│   │   ├── ResearchAgenda.astro   # 研究主线：协同设计排印蓝图
 │   │   └── Sidenote.astro         # Tufte 边栏旁注
 │   ├── content/
 │   │   └── notes/
 │   │       └── on-marginalia.mdx  # 数字花园示例笔记
 │   ├── content.config.ts          # Notes collection schema
 │   ├── data/
-│   │   ├── agenda.ts              # 【内容】研究主线：核心问题与双层结构
+│   │   ├── agenda.ts              # 【内容】研究主线：命题、支柱、基座与验证
 │   │   ├── i18n.ts                # 导航 / 区块 / Notes 界面文案
 │   │   ├── types.ts               # LocalizedText 类型
 │   │   ├── profile.ts             # 【内容】个人资料

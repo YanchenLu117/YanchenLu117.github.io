@@ -2,6 +2,12 @@
 import { researchAgenda } from '../data/agenda';
 import { ui } from '../data/i18n';
 import Bilingual from './Bilingual.astro';
+
+const { thesis, pillars, foundation, regimes, validation } = researchAgenda;
+const regimeList = [
+  { key: 'closed', regime: regimes.closed },
+  { key: 'open', regime: regimes.open },
+] as const;
 ---
 
 <section id="agenda" aria-labelledby="agenda-title" class="scroll-mt-24">
@@ -10,33 +16,142 @@ import Bilingual from './Bilingual.astro';
   </h2>
   <div class="section-rule"></div>
 
-  <div class="mt-6 grid gap-2.5 sm:grid-cols-[112px_minmax(0,1fr)] sm:gap-8">
-    <p class="eyebrow pt-1.5">
-      <Bilingual value={ui.agenda.coreQuestion} />
-    </p>
-    <p
-      class="agenda-core max-w-[62ch] font-serif text-[19px] leading-[1.55] tracking-[-0.005em] text-ink sm:text-[21px]"
-    >
-      <Bilingual value={researchAgenda.coreQuestion} />
-    </p>
-  </div>
+  <div class="blueprint mt-6" data-blueprint>
+    <div class="blueprint-thesis">
+      <p class="eyebrow">
+        <Bilingual value={thesis.label} />
+      </p>
+      <p
+        class="mt-2.5 max-w-[68ch] font-serif text-[18px] leading-[1.55] tracking-[-0.005em] text-ink sm:text-[20px]"
+      >
+        <span class="lang-en" lang="en" set:html={thesis.statement.en} />
+        <span class="lang-zh" lang="zh-CN" set:html={thesis.statement.zh} />
+      </p>
+    </div>
 
-  <div class="agenda-grid mt-8 grid gap-x-10 gap-y-7 sm:grid-cols-2">
-    {
-      researchAgenda.items.map((item) => (
-        <article class="agenda-item border-t border-hairline pt-4">
-          <div class="flex items-baseline gap-3">
-            <span class="font-mono text-[10px] tabular-nums text-accent">{item.number}</span>
-            <h3 class="eyebrow pt-0.5">
-              <Bilingual value={item.title} />
-            </h3>
-          </div>
-          <p class="mt-2 font-serif text-[14px] leading-[1.75] text-muted">
-            <span class="lang-en" lang="en" set:html={item.detail.en} />
-            <span class="lang-zh" lang="zh-CN" set:html={item.detail.zh} />
-          </p>
-        </article>
-      ))
-    }
+    <div
+      class="blueprint-pillars mt-7 grid gap-y-7 sm:grid-cols-[minmax(0,1fr)_34px_minmax(0,1fr)] sm:gap-y-0"
+    >
+      {
+        pillars.map((pillar, index) => (
+          <>
+            <article
+              class:list={[
+                'blueprint-pillar border-t border-hairline pt-4',
+                index === 0 ? 'sm:pr-8' : 'sm:pl-8',
+              ]}
+            >
+              <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                <p class="eyebrow">
+                  <Bilingual value={pillar.label} />
+                </p>
+                <span class="font-mono text-[10px] tabular-nums text-accent">
+                  {pillar.number}
+                </span>
+              </div>
+              <h3 class="mt-2 font-serif text-[17px] font-medium leading-snug tracking-[-0.01em] text-ink">
+                <Bilingual value={pillar.title} />
+              </h3>
+              <p class="mt-2.5 font-serif text-[13.5px] leading-[1.72] text-muted">
+                <span class="lang-en" lang="en" set:html={pillar.detail.en} />
+                <span class="lang-zh" lang="zh-CN" set:html={pillar.detail.zh} />
+              </p>
+            </article>
+            {index === 0 && (
+              <>
+                <div
+                  class="hidden h-full items-center justify-center sm:flex"
+                  aria-hidden="true"
+                >
+                  <span class="font-serif text-[18px] leading-none text-accent">⇄</span>
+                </div>
+                <div
+                  class="flex items-center justify-center py-0.5 text-accent sm:hidden"
+                  aria-hidden="true"
+                >
+                  <span class="font-serif text-[18px] leading-none">⇄</span>
+                </div>
+              </>
+            )}
+          </>
+        ))
+      }
+    </div>
+
+    <div class="blueprint-foundation mt-7 border-y border-hairline bg-paper-soft px-4 py-4 sm:px-5">
+      <div class="grid gap-2 sm:grid-cols-[150px_minmax(0,1fr)] sm:gap-6">
+        <h3 class="eyebrow pt-0.5">
+          <Bilingual value={foundation.title} />
+        </h3>
+        <p class="font-serif text-[13.5px] leading-[1.72] text-muted">
+          <span class="lang-en" lang="en" set:html={foundation.detail.en} />
+          <span class="lang-zh" lang="zh-CN" set:html={foundation.detail.zh} />
+        </p>
+      </div>
+    </div>
+
+    <div class="blueprint-regimes mt-7 grid border-t border-hairline sm:grid-cols-2">
+      {
+        regimeList.map(({ key, regime }, index) => (
+          <article
+            class:list={[
+              'pt-4',
+              index === 0
+                ? 'sm:pr-8'
+                : 'border-t border-hairline sm:border-l sm:border-t-0 sm:pl-8 sm:pr-0',
+            ]}
+            data-regime-card={key}
+          >
+            <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+              <h3 class="eyebrow">
+                <Bilingual value={regime.title} />
+              </h3>
+              {regime.core && (
+                <span class="font-mono text-[9px] uppercase tracking-[0.14em] text-accent">
+                  <Bilingual value={ui.agenda.coreFocus} />
+                </span>
+              )}
+            </div>
+            <p class="mt-2 font-serif text-[13px] leading-[1.7] text-muted">
+              <span class="lang-en" lang="en" set:html={regime.detail.en} />
+              <span class="lang-zh" lang="zh-CN" set:html={regime.detail.zh} />
+            </p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="blueprint-validation mt-7 border-y border-hairline py-4">
+      <div class="grid gap-2 sm:grid-cols-[150px_minmax(0,1fr)] sm:gap-6">
+        <h3 class="eyebrow pt-0.5">
+          <Bilingual value={validation.title} />
+        </h3>
+        <p class="font-serif text-[13px] leading-[1.7] text-muted">
+          <span class="lang-en" lang="en" set:html={validation.detail.en} />
+          <span class="lang-zh" lang="zh-CN" set:html={validation.detail.zh} />
+        </p>
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+  const blueprint = document.querySelector<HTMLElement>('[data-blueprint]');
+
+  if (blueprint) {
+    blueprint.querySelectorAll<HTMLElement>('[data-regime-card]').forEach((card) => {
+      const regime = card.dataset.regimeCard;
+      if (!regime) return;
+
+      card.addEventListener('pointerenter', () => {
+        blueprint.dataset.focus = regime;
+      });
+
+      card.addEventListener('pointerleave', () => {
+        if (blueprint.dataset.focus === regime) {
+          delete blueprint.dataset.focus;
+        }
+      });
+    });
+  }
+</script>

@@ -1,6 +1,6 @@
 import type { LocalizedText } from './types';
 
-export type IconName = 'mail' | 'scholar' | 'github' | 'twitter' | 'cv';
+export type IconName = 'mail' | 'phone' | 'scholar' | 'github' | 'twitter' | 'cv';
 
 export interface SocialLink {
   label: LocalizedText;
@@ -29,6 +29,7 @@ export interface Profile {
   affiliationUrl: string;
   subtitle: LocalizedText;
   email: string;
+  phone: string;
   location: LocalizedText;
   avatar: string;
   /** Each entry is a paragraph and may contain simple inline HTML. */
@@ -49,23 +50,24 @@ export const profile: Profile = {
     zh: '西南财经大学 & 电子科技大学 联合学士学位在读',
   },
   email: 'yanchen_lu117@163.com',
+  phone: '+86 189 6936 3999',
   location: { en: 'Chengdu / Hangzhou, China', zh: '中国 成都 / 杭州' },
   avatar: '/avatar.jpg',
   bio: [
     {
-      en: 'I am an undergraduate student pursuing a joint bachelor\'s degree in Finance and Computer Science & Technology at <a class="bio-link" href="https://www.swufe.edu.cn" target="_blank" rel="noopener noreferrer">Southwestern University of Finance and Economics (SWUFE)</a> and the <a class="bio-link" href="https://www.uestc.edu.cn" target="_blank" rel="noopener noreferrer">University of Electronic Science and Technology of China (UESTC)</a>. My primary research identity centers on <strong class="font-semibold">Autonomous Intelligence</strong> and <strong class="font-semibold">Foundation Models</strong>—investigating how to build intelligent systems that learn, reason, plan, act, and continually self-improve through environmental feedback.',
-      zh: '我是<a class="bio-link" href="https://www.swufe.edu.cn" target="_blank" rel="noopener noreferrer">西南财经大学</a>与<a class="bio-link" href="https://www.uestc.edu.cn" target="_blank" rel="noopener noreferrer">电子科技大学</a>联合培养的本科生，主修金融学与计算机科学与技术双学位项目。我的核心研究主线聚焦于<strong class="font-semibold">自主智能（Autonomous Intelligence）</strong>与<strong class="font-semibold">基础模型（Foundation Models）</strong>，致力于探索如何构建能够学习、推理、规划、行动，并通过环境反馈实现持续自我演进的智能系统。',
+      en: 'I am an undergraduate student pursuing a joint bachelor\'s degree in Finance and Computer Science & Technology at <a class="bio-link" href="https://www.swufe.edu.cn" target="_blank" rel="noopener noreferrer">Southwestern University of Finance and Economics (SWUFE)</a> and the <a class="bio-link" href="https://www.uestc.edu.cn" target="_blank" rel="noopener noreferrer">University of Electronic Science and Technology of China (UESTC)</a>, and currently a research intern at the <a class="bio-link" href="https://www.westlake.edu.cn" target="_blank" rel="noopener noreferrer">AI Research and Innovation Laboratory (CAIRI), Westlake University</a>, working with Prof. Stan Z. Li and Dr. Zelin Zang (Tsientang Institute for Advanced Study). My research centers on <strong class="font-semibold">Autonomous Intelligence</strong> and <strong class="font-semibold">Foundation Models</strong>, advancing model-intrinsic capabilities for understanding, long-horizon planning, active exploration, and continual self-improvement.',
+      zh: '我是<a class="bio-link" href="https://www.swufe.edu.cn" target="_blank" rel="noopener noreferrer">西南财经大学</a>与<a class="bio-link" href="https://www.uestc.edu.cn" target="_blank" rel="noopener noreferrer">电子科技大学</a>联合培养的本科生，主修金融学与计算机科学与技术双学位项目，目前在<a class="bio-link" href="https://www.westlake.edu.cn" target="_blank" rel="noopener noreferrer">西湖大学人工智能研究与创新实验室（CAIRI）</a>担任科研实习生，师从李子青（Stan Z. Li）教授与钱塘高等研究院臧泽林（Zelin Zang）博士。我的研究主线聚焦于<strong class="font-semibold">面向自主智能的基础模型架构与后训练协同创新</strong>，致力于推动复杂决策与推理能力从外部编排向模型内生能力演进。',
     },
     {
-      en: 'Building upon my background in representation learning and generative models, I focus on advancing model-level capabilities—including post-training, reinforcement learning, long-horizon reasoning, and world modeling—using <strong class="font-semibold">AI for Science</strong> (autonomous scientific discovery and AI Scientists) as a high-value validation domain. Currently, I am a research intern at the <a class="bio-link" href="https://www.westlake.edu.cn" target="_blank" rel="noopener noreferrer">AI Research and Innovation Laboratory (CAIRI), Westlake University</a>, working with Prof. Stan Z. Li and Dr. Zelin Zang (Tsientang Institute for Advanced Study). I welcome research collaborations and academic discussions—feel free to reach out via email.',
-      zh: '在表征学习与生成式模型的研究基础上，我致力于从智能体工作流深入至模型能力层——涵盖后训练、强化学习、长程推理与环境/世界建模等核心问题，并以 <strong class="font-semibold">AI for Science</strong>（自主科学发现与 AI Scientist）作为高价值验证场景。目前，我在<a class="bio-link" href="https://www.westlake.edu.cn" target="_blank" rel="noopener noreferrer">西湖大学人工智能研究与创新实验室（CAIRI）</a>担任科研实习生，师从李子青（Stan Z. Li）教授与钱塘高等研究院臧泽林（Zelin Zang）博士。我非常期待与学界及工业界同仁开展各类学术交流与科研合作，欢迎随时通过邮件联系。',
+      en: 'Moving beyond inference-time scaffolding, I investigate the co-design of next-generation agentic post-training paradigms—including exploration-aware policy optimization, learnable test-time search, and auditable verification—and intrinsic model architectures such as latent-space reasoning, non-embodied world modeling, and continual memory. Grounded in representation learning, continual learning, and statistical decision theory, and complemented by mechanistic interpretability, my work aims to achieve compute- and sample-efficient problem solving in closed verifiable regimes while enabling auditable, self-improving discovery in open-ended environments, evaluated across general long-horizon tasks and <strong class="font-semibold">AI for Science</strong>. I welcome research collaborations and academic discussions—feel free to reach out via email.',
+      zh: '具体而言，我协同探索新一代智能体后训练范式（探索感知策略优化、长程信用分配、可学习测试时搜索与可审计验证）与内生模型架构（隐空间推理、循环深度计算、非具身世界模型与多时间尺度记忆），并以表征学习、持续学习、统计决策理论及机制可解释性作为方法论底座，面向通用长程任务与 <strong class="font-semibold">AI for Science</strong>（自主科学发现）开展研究。非常期待与各界同仁开展学术交流与科研合作，欢迎随时通过邮件联系。',
     },
   ],
   researchInterests: [
     { en: 'Autonomous Intelligence', zh: '自主智能' },
-    { en: 'Foundation Models', zh: '基础模型' },
-    { en: 'Post-Training & RL', zh: '后训练与强化学习' },
-    { en: 'Long-Horizon Reasoning', zh: '长程推理' },
+    { en: 'Architecture–Post-Training Co-Design', zh: '架构与后训练协同创新' },
+    { en: 'Agentic RL & Search', zh: '智能体后训练与搜索' },
+    { en: 'Latent Reasoning', zh: '隐空间推理' },
     { en: 'AI for Science', zh: 'AI for Science' },
   ],
   links: [
@@ -74,6 +76,12 @@ export const profile: Profile = {
       href: 'mailto:yanchen_lu117@163.com',
       icon: 'mail',
       value: 'yanchen_lu117@163.com',
+    },
+    {
+      label: { en: 'Phone', zh: '电话' },
+      href: 'tel:+8618969363999',
+      icon: 'phone',
+      value: '+86 189 6936 3999',
     },
   ],
   experience: [
@@ -103,8 +111,8 @@ export const profile: Profile = {
       },
       organizationUrl: 'https://www.westlake.edu.cn',
       detail: {
-        en: 'Working with Prof. Stan Z. Li and Dr. Zelin Zang on autonomous intelligence, foundation models, representation learning, and AI for Science.',
-        zh: '在李子青教授与臧泽林博士指导下，开展自主智能、基础模型、表征学习及 AI for Science 方向的研究。',
+        en: 'Working with Prof. Stan Z. Li and Dr. Zelin Zang on architecture–post-training co-design for autonomous intelligence, representation learning, and AI for Science.',
+        zh: '在李子青教授与臧泽林博士指导下，开展面向自主智能的模型架构与后训练协同创新、表征学习及 AI for Science 方向的研究。',
       },
       kind: 'experience',
       monogram: 'WL',
